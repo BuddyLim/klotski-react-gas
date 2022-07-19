@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react"
+import Klotski from "./component/klotski/index.klotski"
 
 export default function App(){
-  const [currentSheet, setCurrentSheet] = useState(undefined)
+  const [activeSpreadSheetID, currentActiveSpreadSheetID] = useState(undefined)
 
   useEffect(() =>{
-    if(currentSheet === undefined){
+    if(activeSpreadSheetID === undefined && typeof google !== 'undefined'){
       //https://stackoverflow.com/questions/11487045/how-to-use-google-script-run-as-if-it-was-a-function
       google.script.run.withSuccessHandler((result) =>{
         console.log("activeSpreadSheetID", result)
-        setCurrentSheet(result)
+        currentActiveSpreadSheetID(result)
         localStorage.setItem('gameData', `${result}`) 
       }).initNewGameSession()
     }
-  },[currentSheet])
+  },[activeSpreadSheetID])
 
   return( 
     <div>
-      <div>Hello World</div>
-      <p>Some text</p>
+      <Klotski activeSpreadSheetID={activeSpreadSheetID}/>
     </div>
   )
 }
