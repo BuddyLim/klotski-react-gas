@@ -20,6 +20,7 @@
     "rules": {
     },
     "globals": {
-        "google": true
+        "google": true,
+        "SpreadsheetApp": true
     }
 }

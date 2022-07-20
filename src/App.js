@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Klotski from "./component/klotski/index.klotski"
+import './App.css'
 
 export default function App(){
   const [activeSpreadSheetID, currentActiveSpreadSheetID] = useState(undefined)
@@ -16,7 +17,7 @@ export default function App(){
   },[activeSpreadSheetID])
 
   return( 
-    <div>
+    <div style={{ display: "flex", height:"100vh", alignItems:"center", justifyContent:"center" }}>
       <Klotski activeSpreadSheetID={activeSpreadSheetID}/>
     </div>
   )
