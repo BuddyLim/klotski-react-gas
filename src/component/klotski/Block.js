@@ -15,6 +15,7 @@ class Block{
   type = ""
 
   constructor(x, y, blockType, game){
+    console.log(x)
     this.id = uuidv4()
     this.x = x
     this.y = y
@@ -24,13 +25,7 @@ class Block{
     this.color = blockType.color
     this.game = game
 
-    for(let i=0; i<this.width / 50; i++){
-      this.gridX.push((this.x + (i * 50))/ 50)
-    }
-    for(let i=0; i<this.height / 50; i++){
-      this.gridY.push((this.y + (i * 50)) / 50)
-    }
-    
+    this.updateGridPos()
     this.initGraphics(x, y, blockType.color)
   }
 
@@ -49,32 +44,42 @@ class Block{
   handleBlockMove = (newPos, direction) =>{
     const pos =  this[direction]
     const graphicPos = this.graphic.position[direction]
+    const offsetFactorDirection = `${direction}OffsetFactor`
+    const directionDelta = this.game[offsetFactorDirection] * this.game.gridSize
+
     if(pos + newPos < 0){
-      this[direction] = 0 
-      this.graphic.position[direction] = 0 
+      this[direction] = 0 + directionDelta
+      this.graphic.position[direction] = 0 + directionDelta
     }
-      else if((pos + newPos + this.height) > this.game.bounds.y && direction === 'y'){
-      this.y = this.game.bounds.y - this.height
-      this.graphic.position.y = this.game.bounds.y - this.height
+    else if((pos + newPos + this.height) > this.game.bounds.y && direction === 'y'){
+      this.y = this.game.bounds.y - this.height + directionDelta
+      this.graphic.position.y = this.game.bounds.y - this.height + directionDelta
     }
     else if((pos + newPos + this.width) > this.game.bounds.x && direction === 'x'){
+      console.log("here")
       this.x = this.game.bounds.x - this.width
       this.graphic.position.x = this.game.bounds.x - this.width
     }
-
     else{
+      console.log(newPos)
       this[direction] = pos + newPos
       this.graphic.position[direction] = graphicPos + newPos
     }
 
+    this.updateGridPos()
+  }
+
+  updateGridPos = () =>{
     this.gridX = []
     this.gridY = []
-    for(let i=0; i<this.width / 50; i++){
-      this.gridX.push((this.x + (i * 50))/ 50)
+    for(let i=0; i<this.width / this.game.gridSize; i++){
+      this.gridX.push(((this.x - (this.game.xOffsetFactor * this.game.gridSize)) + (i *  this.game.gridSize))/  this.game.gridSize)
     }
-    for(let i=0; i<this.height / 50; i++){
-      this.gridY.push((this.y + (i * 50)) / 50)
+    for(let i=0; i<this.height / this.game.gridSize; i++){
+      this.gridY.push(((this.y - (this.game.yOffsetFactor * this.game.gridSize)) + (i *  this.game.gridSize)) /  this.game.gridSize)
     }
+
+    console.log(this.game.grid)
   }
 }
 

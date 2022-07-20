@@ -12,11 +12,6 @@ export default class Game{
     [null, null, null, null],
     [1, null, null, 1],
   ]
-  bounds = {
-    //For my sanity to interpolate coordinates to grid indices
-    x: (this.grid[0].length) * this.gridSize,
-    y: (this.grid.length) * this.gridSize,
-  } 
   winningBoundsGrid = {
     minX: 1,
     maxX: 2,
@@ -30,6 +25,13 @@ export default class Game{
       y: null
     }
   }
+  xOffsetFactor = 6
+  yOffsetFactor = 2
+  bounds = {
+    //For my sanity to interpolate coordinates to grid indices
+    x: this.grid[0].length * this.gridSize + (this.gridSize * this.xOffsetFactor),
+    y: this.grid.length * this.gridSize + (this.gridSize * this.yOffsetFactor),
+  } 
 
   constructor(app){
     this.app = app
@@ -39,30 +41,32 @@ export default class Game{
   initGame = () =>{
     this.spawnBlocks()
 
-    this.app.renderer.view.addEventListener('mousedown', (e) => {
+    this.app.renderer.view.addEventListener('pointerdown', (e) => {
       this.checkIfWithinBounds(e, this.handleAppMouseDown)
     });
 
-    this.app.renderer.view.addEventListener('mouseup', (e) => {
+    this.app.renderer.view.addEventListener('pointerup', (e) => {
       this.checkIfWithinBounds(e, this.handleAppMouseUp)
     });
   }
 
   spawnBlocks = () =>{
+    const xDelta = this.xOffsetFactor * this.gridSize
+    const yDelta = this.yOffsetFactor * this.gridSize
     const listOfBlocks = []
 
-    const vert1 = new Block(0, 0, BlockTypes.vertical, this)
-    const vert2 = new Block(0, 100, BlockTypes.vertical, this)
-    const block1 = new Block(0, 200, BlockTypes.block, this)
+    const vert1 = new Block(0 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
+    const vert2 = new Block(0 + xDelta , 100 + yDelta, BlockTypes.vertical, this)
+    const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
-    const main = new Block(50, 0, BlockTypes.main, this)
-    const hori1 = new Block(50, 100, BlockTypes.horizontal, this)
-    const block2 = new Block(50, 150, BlockTypes.block, this)
-    const block3 = new Block(100, 150, BlockTypes.block, this)
+    const main = new Block(50 + xDelta, 0 + yDelta, BlockTypes.main, this)
+    const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
+    const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
+    const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
 
-    const vert4 = new Block(150, 0, BlockTypes.vertical, this)
-    const vert5 = new Block(150, 100, BlockTypes.vertical, this)
-    const block4 = new Block(150, 200, BlockTypes.block, this)
+    const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
+    const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
+    const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
     listOfBlocks.push(vert1)
     listOfBlocks.push(vert2)
@@ -87,20 +91,20 @@ export default class Game{
   }
 
   updateNewBlockGridPosition = (block, setNull=false) =>{
-    const Xfactor = block.width / this.gridSize
-    const Yfactor = block.height / this.gridSize
+    for(let i=0; i<block.gridY.length; i++){
+      const gridPosY = block.gridY[i]
+      for(let j=0; j<block.gridX.length; j++){
+        const gridPosX = block.gridX[j]
 
-    for(let i=0; i < Yfactor; i++){   
-      for(let j=0; j < Xfactor; j++){
-        this.grid[(block.y + (i * this.gridSize)) / this.gridSize][(block.x + (j * this.gridSize)) / this.gridSize] = setNull ? null : block
+        this.grid[gridPosY][gridPosX] = setNull ? null : block
       }
     }
   }
 
   handleAppMouseDown = (e) =>{
     const { offsetX, offsetY } = e
-    const gridX = Math.floor(offsetX / this.gridSize)
-    const gridY = Math.floor(offsetY / this.gridSize)
+    const gridX = Math.floor((offsetX - (this.xOffsetFactor * this.gridSize)) / this.gridSize)
+    const gridY = Math.floor((offsetY - (this.yOffsetFactor * this.gridSize)) / this.gridSize)
     const block = this.grid[gridY][gridX]
 
     this.selected.block = block
@@ -113,8 +117,8 @@ export default class Game{
   handleAppMouseUp = (e) =>{
     const { offsetX, offsetY } = e
     //Get new position relative to the grid indices
-    const newGridPosX = Math.floor(offsetX / this.gridSize)
-    let newGridPosY = Math.floor(offsetY / this.gridSize)
+    const newGridPosX = Math.floor((offsetX - (this.xOffsetFactor * this.gridSize)) / this.gridSize)
+    let newGridPosY = Math.floor((offsetY - (this.yOffsetFactor * this.gridSize)) / this.gridSize)
     const { x: blockGridX, y: blockGridY } = this.selected.grid
 
     if([1, 2].includes(newGridPosX) && newGridPosY === 5 && this.selected.block.type !== "main"){
@@ -179,8 +183,8 @@ export default class Game{
   checkIfWithinBounds = (e, func) =>{
     //Check if event is within game bounds
     const { offsetX, offsetY } = e
-    const withinXBounds = offsetX <= this.bounds.x && offsetX >= 0
-    const withinYBounds = offsetY <= this.bounds.y && offsetY >= 0
+    const withinXBounds = offsetX - (this.xOffsetFactor * this.gridSize) <= this.bounds.x && offsetX - (this.xOffsetFactor * this.gridSize) >= 0
+    const withinYBounds = offsetY - (this.yOffsetFactor * this.gridSize) <= this.bounds.y && offsetY - (this.yOffsetFactor * this.gridSize) >= 0
     if(withinXBounds && withinYBounds){
       func(e)
     }

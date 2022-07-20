@@ -10,8 +10,8 @@ export default function Klotski(){
   useEffect(()=>{
     const app = new PIXI.Application({
       backgroundColor: 0xFFFFFF,
-      width: 201,
-      height: 301,
+      // width: "100%",
+      // height: "100%",
       view: document.getElementById('canvas')
     });
     // The application will create a canvas element for you that you
@@ -23,8 +23,8 @@ export default function Klotski(){
     <canvas
       ref={canvas}
       id="canvas"
-      width={201}
-      height={301}
+      // // width={201}
+      // // height={301}
     />
   )
 }

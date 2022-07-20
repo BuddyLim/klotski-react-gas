@@ -27318,8 +27318,8 @@ function Klotski() {
     (0, _react.useEffect)(()=>{
         const app = new _pixiJs.Application({
             backgroundColor: 0xFFFFFF,
-            width: 201,
-            height: 301,
+            // width: "100%",
+            // height: "100%",
             view: document.getElementById("canvas")
         });
         // The application will create a canvas element for you that you
@@ -27328,9 +27328,7 @@ function Klotski() {
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("canvas", {
         ref: canvas,
-        id: "canvas",
-        width: 201,
-        height: 301
+        id: "canvas"
     }, void 0, false, {
         fileName: "src/component/klotski/index.klotski.js",
         lineNumber: 23,
@@ -66000,11 +65998,6 @@ class Game {
             1
         ], 
     ];
-    bounds = {
-        //For my sanity to interpolate coordinates to grid indices
-        x: this.grid[0].length * this.gridSize,
-        y: this.grid.length * this.gridSize
-    };
     winningBoundsGrid = {
         minX: 1,
         maxX: 2,
@@ -66018,31 +66011,40 @@ class Game {
             y: null
         }
     };
+    xOffsetFactor = 6;
+    yOffsetFactor = 2;
+    bounds = {
+        //For my sanity to interpolate coordinates to grid indices
+        x: this.grid[0].length * this.gridSize + this.gridSize * this.xOffsetFactor,
+        y: this.grid.length * this.gridSize + this.gridSize * this.yOffsetFactor
+    };
     constructor(app){
         this.app = app;
         this.initGame();
     }
     initGame = ()=>{
         this.spawnBlocks();
-        this.app.renderer.view.addEventListener("mousedown", (e)=>{
+        this.app.renderer.view.addEventListener("pointerdown", (e)=>{
             this.checkIfWithinBounds(e, this.handleAppMouseDown);
         });
-        this.app.renderer.view.addEventListener("mouseup", (e)=>{
+        this.app.renderer.view.addEventListener("pointerup", (e)=>{
             this.checkIfWithinBounds(e, this.handleAppMouseUp);
         });
     };
     spawnBlocks = ()=>{
+        const xDelta = this.xOffsetFactor * this.gridSize;
+        const yDelta = this.yOffsetFactor * this.gridSize;
         const listOfBlocks = [];
-        const vert1 = new (0, _blockDefault.default)(0, 0, (0, _blockUtil.BlockTypes).vertical, this);
-        const vert2 = new (0, _blockDefault.default)(0, 100, (0, _blockUtil.BlockTypes).vertical, this);
-        const block1 = new (0, _blockDefault.default)(0, 200, (0, _blockUtil.BlockTypes).block, this);
-        const main = new (0, _blockDefault.default)(50, 0, (0, _blockUtil.BlockTypes).main, this);
-        const hori1 = new (0, _blockDefault.default)(50, 100, (0, _blockUtil.BlockTypes).horizontal, this);
-        const block2 = new (0, _blockDefault.default)(50, 150, (0, _blockUtil.BlockTypes).block, this);
-        const block3 = new (0, _blockDefault.default)(100, 150, (0, _blockUtil.BlockTypes).block, this);
-        const vert4 = new (0, _blockDefault.default)(150, 0, (0, _blockUtil.BlockTypes).vertical, this);
-        const vert5 = new (0, _blockDefault.default)(150, 100, (0, _blockUtil.BlockTypes).vertical, this);
-        const block4 = new (0, _blockDefault.default)(150, 200, (0, _blockUtil.BlockTypes).block, this);
+        const vert1 = new (0, _blockDefault.default)(0 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const vert2 = new (0, _blockDefault.default)(0 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const block1 = new (0, _blockDefault.default)(0 + xDelta, 200 + yDelta, (0, _blockUtil.BlockTypes).block, this);
+        const main = new (0, _blockDefault.default)(50 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).main, this);
+        const hori1 = new (0, _blockDefault.default)(50 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).horizontal, this);
+        const block2 = new (0, _blockDefault.default)(50 + xDelta, 150 + yDelta, (0, _blockUtil.BlockTypes).block, this);
+        const block3 = new (0, _blockDefault.default)(100 + xDelta, 150 + yDelta, (0, _blockUtil.BlockTypes).block, this);
+        const vert4 = new (0, _blockDefault.default)(150 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const vert5 = new (0, _blockDefault.default)(150 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const block4 = new (0, _blockDefault.default)(150 + xDelta, 200 + yDelta, (0, _blockUtil.BlockTypes).block, this);
         listOfBlocks.push(vert1);
         listOfBlocks.push(vert2);
         listOfBlocks.push(block1);
@@ -66060,14 +66062,18 @@ class Game {
         });
     };
     updateNewBlockGridPosition = (block, setNull = false)=>{
-        const Xfactor = block.width / this.gridSize;
-        const Yfactor = block.height / this.gridSize;
-        for(let i = 0; i < Yfactor; i++)for(let j = 0; j < Xfactor; j++)this.grid[(block.y + i * this.gridSize) / this.gridSize][(block.x + j * this.gridSize) / this.gridSize] = setNull ? null : block;
+        for(let i = 0; i < block.gridY.length; i++){
+            const gridPosY = block.gridY[i];
+            for(let j = 0; j < block.gridX.length; j++){
+                const gridPosX = block.gridX[j];
+                this.grid[gridPosY][gridPosX] = setNull ? null : block;
+            }
+        }
     };
     handleAppMouseDown = (e)=>{
         const { offsetX , offsetY  } = e;
-        const gridX = Math.floor(offsetX / this.gridSize);
-        const gridY = Math.floor(offsetY / this.gridSize);
+        const gridX = Math.floor((offsetX - this.xOffsetFactor * this.gridSize) / this.gridSize);
+        const gridY = Math.floor((offsetY - this.yOffsetFactor * this.gridSize) / this.gridSize);
         const block = this.grid[gridY][gridX];
         this.selected.block = block;
         this.selected.grid = {
@@ -66078,8 +66084,8 @@ class Game {
     handleAppMouseUp = (e)=>{
         const { offsetX , offsetY  } = e;
         //Get new position relative to the grid indices
-        const newGridPosX = Math.floor(offsetX / this.gridSize);
-        let newGridPosY = Math.floor(offsetY / this.gridSize);
+        const newGridPosX = Math.floor((offsetX - this.xOffsetFactor * this.gridSize) / this.gridSize);
+        let newGridPosY = Math.floor((offsetY - this.yOffsetFactor * this.gridSize) / this.gridSize);
         const { x: blockGridX , y: blockGridY  } = this.selected.grid;
         if ([
             1,
@@ -66123,8 +66129,8 @@ class Game {
     checkIfWithinBounds = (e, func)=>{
         //Check if event is within game bounds
         const { offsetX , offsetY  } = e;
-        const withinXBounds = offsetX <= this.bounds.x && offsetX >= 0;
-        const withinYBounds = offsetY <= this.bounds.y && offsetY >= 0;
+        const withinXBounds = offsetX - this.xOffsetFactor * this.gridSize <= this.bounds.x && offsetX - this.xOffsetFactor * this.gridSize >= 0;
+        const withinYBounds = offsetY - this.yOffsetFactor * this.gridSize <= this.bounds.y && offsetY - this.yOffsetFactor * this.gridSize >= 0;
         if (withinXBounds && withinYBounds) func(e);
     };
     checkNeighbours = (startingGrid, endingGrid, direction)=>{
@@ -66181,6 +66187,7 @@ class Block {
     game = null;
     type = "";
     constructor(x, y, blockType, game){
+        console.log(x);
         this.id = (0, _uuid.v4)();
         this.x = x;
         this.y = y;
@@ -66189,8 +66196,7 @@ class Block {
         this.type = blockType.type;
         this.color = blockType.color;
         this.game = game;
-        for(let i = 0; i < this.width / 50; i++)this.gridX.push((this.x + i * 50) / 50);
-        for(let i1 = 0; i1 < this.height / 50; i1++)this.gridY.push((this.y + i1 * 50) / 50);
+        this.updateGridPos();
         this.initGraphics(x, y, blockType.color);
     }
     initGraphics = (x, y, color)=>{
@@ -66206,23 +66212,31 @@ class Block {
     handleBlockMove = (newPos, direction)=>{
         const pos = this[direction];
         const graphicPos = this.graphic.position[direction];
+        const offsetFactorDirection = `${direction}OffsetFactor`;
+        const directionDelta = this.game[offsetFactorDirection] * this.game.gridSize;
         if (pos + newPos < 0) {
-            this[direction] = 0;
-            this.graphic.position[direction] = 0;
+            this[direction] = 0 + directionDelta;
+            this.graphic.position[direction] = 0 + directionDelta;
         } else if (pos + newPos + this.height > this.game.bounds.y && direction === "y") {
-            this.y = this.game.bounds.y - this.height;
-            this.graphic.position.y = this.game.bounds.y - this.height;
+            this.y = this.game.bounds.y - this.height + directionDelta;
+            this.graphic.position.y = this.game.bounds.y - this.height + directionDelta;
         } else if (pos + newPos + this.width > this.game.bounds.x && direction === "x") {
+            console.log("here");
             this.x = this.game.bounds.x - this.width;
             this.graphic.position.x = this.game.bounds.x - this.width;
         } else {
+            console.log(newPos);
             this[direction] = pos + newPos;
             this.graphic.position[direction] = graphicPos + newPos;
         }
+        this.updateGridPos();
+    };
+    updateGridPos = ()=>{
         this.gridX = [];
         this.gridY = [];
-        for(let i = 0; i < this.width / 50; i++)this.gridX.push((this.x + i * 50) / 50);
-        for(let i2 = 0; i2 < this.height / 50; i2++)this.gridY.push((this.y + i2 * 50) / 50);
+        for(let i = 0; i < this.width / this.game.gridSize; i++)this.gridX.push((this.x - this.game.xOffsetFactor * this.game.gridSize + i * this.game.gridSize) / this.game.gridSize);
+        for(let i1 = 0; i1 < this.height / this.game.gridSize; i1++)this.gridY.push((this.y - this.game.yOffsetFactor * this.game.gridSize + i1 * this.game.gridSize) / this.game.gridSize);
+        console.log(this.game.grid);
     };
 }
 exports.default = Block;
