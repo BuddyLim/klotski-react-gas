@@ -27315,28 +27315,74 @@ var _s = $RefreshSig$();
 function Klotski() {
     _s();
     const canvas = (0, _reactDefault.default).useRef();
+    const [pixijsApp, setPixijsApp] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
         const app = new _pixiJs.Application({
             backgroundColor: 0xFFFFFF,
-            // width: "100%",
-            // height: "100%",
-            view: document.getElementById("canvas")
+            width: 800,
+            height: 400,
+            view: document.getElementById("canvas"),
+            preserveDrawingBuffer: true,
+            backgroundAlpha: 1
         });
-        // The application will create a canvas element for you that you
-        // can then insert into the DOM
-        const game = new (0, _gameDefault.default)(app);
+        new (0, _gameDefault.default)(app);
+        setPixijsApp(app);
     }, []);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("canvas", {
-        ref: canvas,
-        id: "canvas"
-    }, void 0, false, {
+    const handleTakePicture = ()=>{
+        const renderTexture = _pixiJs.autoDetectRenderer({
+            width: pixijsApp.screen.width,
+            height: pixijsApp.screen.height,
+            resolution: pixijsApp.renderer.resolution,
+            backgroundAlpha: 1,
+            backgroundColor: 0xFFFFFF
+        });
+        renderTexture.render(pixijsApp.stage);
+        const imgBase64 = renderTexture.extract.base64();
+        const download = document.createElement("a");
+        download.download = "klotski.png";
+        download.href = imgBase64;
+        download.target = "_blank";
+        download.click();
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("canvas", {
+                ref: canvas,
+                id: "canvas"
+            }, void 0, false, {
+                fileName: "src/component/klotski/index.klotski.js",
+                lineNumber: 43,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                    id: "take-picture",
+                    onClick: handleTakePicture,
+                    children: "Take a picture"
+                }, void 0, false, {
+                    fileName: "src/component/klotski/index.klotski.js",
+                    lineNumber: 48,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/component/klotski/index.klotski.js",
+                lineNumber: 47,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/component/klotski/index.klotski.js",
-        lineNumber: 23,
+        lineNumber: 42,
         columnNumber: 5
     }, this);
 }
 exports.default = Klotski;
-_s(Klotski, "Iosu+jEjScFAX5hfSp9z4J61DK4=");
+_s(Klotski, "OjlRyXjvz7FnYVnCwRcPSrK6Tlo=");
 _c = Klotski;
 Klotski.propTypes = {
     activeSpreadSheetID: (0, _propTypesDefault.default).string
@@ -65957,6 +66003,7 @@ parcelHelpers.defineInteropFlag(exports);
 var _block = require("./Block");
 var _blockDefault = parcelHelpers.interopDefault(_block);
 var _blockUtil = require("./Block.util");
+var _pixiJs = require("pixi.js");
 class Game {
     app = null;
     gridSize = 50;
@@ -66012,12 +66059,14 @@ class Game {
         }
     };
     xOffsetFactor = 6;
-    yOffsetFactor = 2;
+    yOffsetFactor = 1;
     bounds = {
         //For my sanity to interpolate coordinates to grid indices
         x: this.grid[0].length * this.gridSize + this.gridSize * this.xOffsetFactor,
         y: this.grid.length * this.gridSize + this.gridSize * this.yOffsetFactor
     };
+    moveCount = 0;
+    moveCounterText = "";
     constructor(app){
         this.app = app;
         this.initGame();
@@ -66059,7 +66108,16 @@ class Game {
         listOfBlocks.map((block)=>{
             this.updateNewBlockGridPosition(block);
             this.app.stage.addChild(block.graphic);
+            block.graphic.cacheAsBitmap = false;
         });
+        this.moveCounterText = new _pixiJs.Text(`Moves made: ${this.moveCount}`, {
+            fontFamily: "Arial",
+            fontSize: 24,
+            fill: 0x00000,
+            align: "center"
+        });
+        this.moveCounterText.position.set(320, 0);
+        this.app.stage.addChild(this.moveCounterText);
     };
     updateNewBlockGridPosition = (block, setNull = false)=>{
         for(let i = 0; i < block.gridY.length; i++){
@@ -66105,6 +66163,11 @@ class Game {
         this.selected.block.handleBlockMove(newGridPos * this.gridSize, direction);
         //Update new position
         this.updateNewBlockGridPosition(this.selected.block);
+        this.reactFnSetMoveCounter((prevCount)=>{
+            return ++prevCount;
+        });
+        ++this.moveCount;
+        this.moveCounterText.text = `Moves made: ${this.moveCount}`;
         const isWin = this.checkIfWon();
         if (isWin) console.log("Won!");
     };
@@ -66168,7 +66231,7 @@ class Game {
 }
 exports.default = Game;
 
-},{"./Block":"73Eb0","./Block.util":"hYCF3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"73Eb0":[function(require,module,exports) {
+},{"./Block":"73Eb0","./Block.util":"hYCF3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","pixi.js":"dsYej"}],"73Eb0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _pixiJs = require("pixi.js");
@@ -66221,7 +66284,6 @@ class Block {
             this.y = this.game.bounds.y - this.height + directionDelta;
             this.graphic.position.y = this.game.bounds.y - this.height + directionDelta;
         } else if (pos + newPos + this.width > this.game.bounds.x && direction === "x") {
-            console.log("here");
             this.x = this.game.bounds.x - this.width;
             this.graphic.position.x = this.game.bounds.x - this.width;
         } else {

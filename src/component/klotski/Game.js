@@ -1,5 +1,6 @@
 import Block from "./Block"
 import { BlockTypes } from './Block.util'
+import * as PIXI from 'pixi.js'
 
 export default class Game{
   app = null
@@ -26,12 +27,15 @@ export default class Game{
     }
   }
   xOffsetFactor = 6
-  yOffsetFactor = 2
+  yOffsetFactor = 1
   bounds = {
     //For my sanity to interpolate coordinates to grid indices
     x: this.grid[0].length * this.gridSize + (this.gridSize * this.xOffsetFactor),
     y: this.grid.length * this.gridSize + (this.gridSize * this.yOffsetFactor),
   } 
+  
+  moveCount = 0
+  moveCounterText = ""
 
   constructor(app){
     this.app = app
@@ -87,7 +91,16 @@ export default class Game{
     listOfBlocks.map(block =>{
       this.updateNewBlockGridPosition(block)
       this.app.stage.addChild(block.graphic)
+      block.graphic.cacheAsBitmap = false
     })
+
+    this.moveCounterText = new PIXI.Text(
+      `Moves made: ${this.moveCount}`,
+      {fontFamily : 'Arial', fontSize: 24, fill : 0x00000, align : 'center', }
+    )
+    this.moveCounterText.position.set(320, 0)
+    this.app.stage.addChild(this.moveCounterText)
+
   }
 
   updateNewBlockGridPosition = (block, setNull=false) =>{
@@ -146,6 +159,9 @@ export default class Game{
     //Update new position
     this.updateNewBlockGridPosition(this.selected.block)
 
+    this.reactFnSetMoveCounter(prevCount =>{ return ++prevCount })
+    ++this.moveCount
+    this.moveCounterText.text =`Moves made: ${this.moveCount}`
     const isWin = this.checkIfWon()
     if(isWin){
       console.log("Won!")

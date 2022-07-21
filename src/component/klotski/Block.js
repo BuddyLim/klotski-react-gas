@@ -56,7 +56,6 @@ class Block{
       this.graphic.position.y = this.game.bounds.y - this.height + directionDelta
     }
     else if((pos + newPos + this.width) > this.game.bounds.x && direction === 'x'){
-      console.log("here")
       this.x = this.game.bounds.x - this.width
       this.graphic.position.x = this.game.bounds.x - this.width
     }
