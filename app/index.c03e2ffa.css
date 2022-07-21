@@ -19,4 +19,8 @@ html {
   font-size: 1.3rem;
 }
 
+.warning-bar-content {
+  display: none !important;
+}
+
 /*# sourceMappingURL=index.c03e2ffa.css.map */

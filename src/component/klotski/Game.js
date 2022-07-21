@@ -1,6 +1,8 @@
 import Block from "./Block"
 import { BlockTypes } from './Block.util'
 import * as PIXI from 'pixi.js'
+import Wall from "./Wall"
+import confetti from "canvas-confetti"
 
 export default class Game{
   app = null
@@ -27,7 +29,7 @@ export default class Game{
     }
   }
   xOffsetFactor = 6
-  yOffsetFactor = 1
+  yOffsetFactor = 1.5
   bounds = {
     //For my sanity to interpolate coordinates to grid indices
     x: this.grid[0].length * this.gridSize + (this.gridSize * this.xOffsetFactor),
@@ -37,8 +39,12 @@ export default class Game{
   moveCount = 0
   moveCounterText = ""
 
-  constructor(app){
+  win = false
+  reactFnSetResetShown = null
+  
+  constructor(app, reactFnSetResetShown){
     this.app = app
+    this.reactFnSetResetShown = reactFnSetResetShown
     this.initGame()
   }
 
@@ -61,39 +67,50 @@ export default class Game{
 
     const vert1 = new Block(0 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
     const vert2 = new Block(0 + xDelta , 100 + yDelta, BlockTypes.vertical, this)
-    const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
+    // const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
     const main = new Block(50 + xDelta, 0 + yDelta, BlockTypes.main, this)
-    const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
-    const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
-    const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
+    // const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
+    // const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
+    // const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
 
-    const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
-    const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
-    const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
+    // const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
+    // const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
+    // const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
     listOfBlocks.push(vert1)
     listOfBlocks.push(vert2)
-    listOfBlocks.push(block1)
+    // listOfBlocks.push(block1)
 
     listOfBlocks.push(main)
-    listOfBlocks.push(hori1)
+    // listOfBlocks.push(hori1)
 
-    listOfBlocks.push(block2)
-    listOfBlocks.push(block3)
+    // listOfBlocks.push(block2)
+    // listOfBlocks.push(block3)
 
-    listOfBlocks.push(vert4)
-    listOfBlocks.push(vert5)
-    listOfBlocks.push(block4)
+    // listOfBlocks.push(vert4)
+    // listOfBlocks.push(vert5)
+    // listOfBlocks.push(block4)
 
     this.listOfBlocks = listOfBlocks
 
     listOfBlocks.map(block =>{
       this.updateNewBlockGridPosition(block)
       this.app.stage.addChild(block.graphic)
-      block.graphic.cacheAsBitmap = false
     })
 
+    const wall1 = new Wall(300, 59, 200, 15)
+    const wall2 = new Wall(285, 59, 15, 266)
+    const wall3 = new Wall(500, 59, 15, 266)
+    const wall4 = new Wall(285, 325, 65, 15)
+    const wall5 = new Wall(450, 325, 65, 15)
+
+    this.app.stage.addChild(wall1.graphic)
+    this.app.stage.addChild(wall2.graphic)
+    this.app.stage.addChild(wall3.graphic)
+    this.app.stage.addChild(wall4.graphic)
+    this.app.stage.addChild(wall5.graphic)
+    
     this.moveCounterText = new PIXI.Text(
       `Moves made: ${this.moveCount}`,
       {fontFamily : 'Arial', fontSize: 24, fill : 0x00000, align : 'center', }
@@ -115,15 +132,17 @@ export default class Game{
   }
 
   handleAppMouseDown = (e) =>{
-    const { offsetX, offsetY } = e
-    const gridX = Math.floor((offsetX - (this.xOffsetFactor * this.gridSize)) / this.gridSize)
-    const gridY = Math.floor((offsetY - (this.yOffsetFactor * this.gridSize)) / this.gridSize)
-    const block = this.grid[gridY][gridX]
-
-    this.selected.block = block
-    this.selected.grid = {
-      x: gridX,
-      y: gridY
+    if(!this.win){
+      const { offsetX, offsetY } = e
+      const gridX = Math.floor((offsetX - (this.xOffsetFactor * this.gridSize)) / this.gridSize)
+      const gridY = Math.floor((offsetY - (this.yOffsetFactor * this.gridSize)) / this.gridSize)
+      const block = this.grid[gridY][gridX]
+  
+      this.selected.block = block
+      this.selected.grid = {
+        x: gridX,
+        y: gridY
+      }
     }
   }
 
@@ -142,7 +161,7 @@ export default class Game{
     const isYMovement = blockGridY !== newGridPosY
     if(isXMovement && !isYMovement){
       this.handleBlockMovement( Math.min(blockGridX, newGridPosX), Math.max(blockGridX, newGridPosX), newGridPosX - blockGridX, 'x', 'y')
-    }
+    } 
     else if(isYMovement && !isXMovement){
       this.handleBlockMovement(Math.min(blockGridY, newGridPosY),  Math.max(blockGridY, newGridPosY), newGridPosY - blockGridY, 'y', 'x')
     }
@@ -159,21 +178,22 @@ export default class Game{
     //Update new position
     this.updateNewBlockGridPosition(this.selected.block)
 
-    this.reactFnSetMoveCounter(prevCount =>{ return ++prevCount })
     ++this.moveCount
     this.moveCounterText.text =`Moves made: ${this.moveCount}`
     const isWin = this.checkIfWon()
     if(isWin){
-      console.log("Won!")
+      this.handleWin()
     }
   }
 
   handleBlockMovement = (startingGrid, endingGrid, delta, direction, neighbourDirection) =>{
-    const containsBlockInPath = this.checkNeighbours(startingGrid, endingGrid, neighbourDirection)
-    if(!containsBlockInPath){
-      const existingBlock = this.checkIfOverlapNeighbour(delta, direction)
-      if(!existingBlock){
-        this.handleUpdateBlockPosition(delta, direction)
+    if(this.selected.block){
+      const containsBlockInPath = this.selected.block != null && this.checkNeighbours(startingGrid, endingGrid, neighbourDirection)
+      if(!containsBlockInPath){
+        const existingBlock = this.checkIfOverlapNeighbour(delta, direction)
+        if(!existingBlock){
+          this.handleUpdateBlockPosition(delta, direction)
+        }
       }
     }
   }
@@ -247,5 +267,52 @@ export default class Game{
         }
       }
     }
+  }
+
+  handleWin = () =>{
+    console.log("Won!")
+    this.win = true
+    this.fireConfetti()
+    this.moveCounterText.text =`You Win!\nMoves made: ${this.moveCount}`
+    this.reactFnSetResetShown(true)
+    // setTimeout(() =>{
+    //   location.reload()
+    // }, 5000)
+  }
+
+  fireConfetti = () =>{
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.8 }
+    };
+
+    function fire(particleRatio, opts) {
+      confetti(Object.assign({}, defaults, opts, {
+        particleCount: Math.floor(count * particleRatio)
+      }));
+    }
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 60,
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
   }
 }

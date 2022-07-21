@@ -7,6 +7,8 @@ import Game from './Game';
 export default function Klotski(){
   const canvas = React.useRef();
   const [pixijsApp, setPixijsApp] = useState(null)
+  const [isResetShown, setResetShown] = useState(false)
+
   useEffect(()=>{
     const app = new PIXI.Application({
       backgroundColor: 0xFFFFFF,
@@ -17,7 +19,7 @@ export default function Klotski(){
       backgroundAlpha: 1
     });
 
-    new Game(app)
+    new Game(app, setResetShown)
     setPixijsApp(app)
   }, [])
 
@@ -37,6 +39,14 @@ export default function Klotski(){
     download.target = '_blank'
     download.click()
   }
+
+  const handleSaveCurrentGameInfo = () =>{
+
+  }
+
+  const handleResetGame = () =>{
+    location.reload()
+  }
   
   return(
     <div>
@@ -44,8 +54,12 @@ export default function Klotski(){
         ref={canvas}
         id="canvas"
       />
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"center"}}>
-        <button id="take-picture" onClick={handleTakePicture}>Take a picture</button>  
+      <div className='buttons-container'>
+        {isResetShown && <button onClick={handleResetGame}>New Game</button>}
+        <div className='buttons-container' style={{flexDirection: 'row', gap: "10px"}}>
+          <button id="take-picture" onClick={handleTakePicture}>Take a picture</button>
+          <button id="take-picture" onClick={handleSaveCurrentGameInfo}>Save game info</button>  
+        </div>
       </div>
     </div>
   )

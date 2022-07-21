@@ -3,7 +3,7 @@ export const BlockTypes = {
     xFactor: 2,
     yFactor: 1,
     type:"horizontal",
-    color: 0xEBEBD3
+    color: 0x0FFF0
   },
   vertical: {
     xFactor: 1,
