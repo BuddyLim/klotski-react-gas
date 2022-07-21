@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js'
 import React, { useEffect, useState } from 'react'
 import Game from './Game';
 
-export default function Klotski(){
+export default function Klotski({ setPrevStats }){
   const canvas = React.useRef();
   const [pixijsApp, setPixijsApp] = useState(null)
   const [game, setGame] = useState(null)
@@ -55,6 +55,18 @@ export default function Klotski(){
       window.open(url,'_top');
     }).getScriptURL();
   }
+
+  const handlePreviousStatsClick = () =>{
+    const spreadSheetID = localStorage.getItem('sheetID')
+    google.script.run.withSuccessHandler((stats) =>{
+      const parsedStats = JSON.parse(stats)
+      setPrevStats(parsedStats)
+      setTimeout(() =>{
+        const ele = document.getElementById(`session-${parsedStats.length}`)
+        ele.scrollIntoView({behavior: "smooth", block:"end", inline:"end"});
+      }, 500)
+    }).getSheetStats(spreadSheetID)
+  }
   
   return(
     <div>
@@ -66,7 +78,10 @@ export default function Klotski(){
         {isResetShown && <button onClick={handleResetGame}>New Game</button>}
         <div className='buttons-container' style={{flexDirection: 'row', gap: "10px"}}>
           <button id="take-picture" onClick={handleTakePicture}>Take a picture</button>
-          <button id="take-picture" onClick={handleSaveCurrentGameInfo}>Save game info</button>  
+          <button id="take-picture" onClick={handleSaveCurrentGameInfo}>Save game info</button>
+          <button onClick={handlePreviousStatsClick}>
+            Previous stats
+          </button>  
         </div>
       </div>
     </div>
@@ -74,5 +89,6 @@ export default function Klotski(){
 }
 
 Klotski.propTypes = {
-  activeSpreadSheetID: PropTypes.string
+  activeSpreadSheetID: PropTypes.string,
+  setPrevStats: PropTypes.func
 }

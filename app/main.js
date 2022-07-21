@@ -32,6 +32,26 @@ const resumeSpreadsheet = (spreadSheetID) =>{
   Logger.log(SpreadsheetApp.getActiveSpreadsheet().getId())
 }
 
+const getSheetStats = (spreadSheetID) =>{
+  const spreadSheet = SpreadsheetApp.openById(spreadSheetID)
+  const sheetCount = spreadSheet.getNumSheets()
+  const statsList = []
+  for (let index = 0; index < sheetCount; index++) {
+    const sheet = spreadSheet.setActiveSheet(spreadSheet.getSheets()[index]);
+    const lastIndex = sheet.getLastRow()
+    const values = sheet.getRange(`A${lastIndex}:C${lastIndex}`).getValues()[0]
+    statsList.push({
+      title: `Session ${index + 1}`,
+      //Why GMT-5? Based on the spreadsheet's timesonze and locale
+      time: values[0] === "Time" ? "No saved time" : Utilities.formatDate(values[0], "GMT-5", "hh:mm:ss a"),
+      moveCount: values[1] === "Moves made" ? 0 : values[1],
+      won: values[2] === "Won" ? false : values[2]
+    })
+  }
+
+  return JSON.stringify(statsList)
+}
+
 const prepareSheet = (sheet) =>{
   const range = sheet.getRange("A1:C1")
   const bold = SpreadsheetApp.newTextStyle().setBold(true).build()
@@ -52,8 +72,8 @@ const prepareSheet = (sheet) =>{
   range.setRichTextValues([[richTextA1, richTextB1, richTextC1]]);
 }
 
-const addDataToSheet = (spreadSheetId, time, moveCount, win) =>{
-  const spreadSheet = SpreadsheetApp.openById(spreadSheetId)
+const addDataToSheet = (spreadSheetID, time, moveCount, win) =>{
+  const spreadSheet = SpreadsheetApp.openById(spreadSheetID)
   SpreadsheetApp.setActiveSpreadsheet(spreadSheet)
   const sheet = spreadSheet.setActiveSheet(spreadSheet.getSheets()[spreadSheet.getNumSheets() - 1]);
   const latestRow = sheet.getLastRow() + 1

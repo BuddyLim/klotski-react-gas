@@ -10,10 +10,6 @@
   src: url("https://fonts.googleapis.com/css?family=ZCOOL QingKe HuangYou");
 }
 
-html {
-  overflow-y: hidden;
-}
-
 #moves-made {
   text-align: center;
   margin-bottom: 40px;
@@ -27141,6 +27137,7 @@ var _s = $RefreshSig$();
 function App() {
     _s();
     const [activeSpreadSheetID, currentActiveSpreadSheetID] = (0, _react.useState)(undefined);
+    const [prevStats, setPrevStats] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
         if (activeSpreadSheetID === undefined && typeof google !== "undefined") {
             //https://stackoverflow.com/questions/22898501/create-a-new-sheet-in-a-google-sheets-with-google-apps-script
@@ -27157,7 +27154,6 @@ function App() {
     ]);
     const handleExistingSpreedsheet = (spreadSheetID)=>{
         google.script.run.withSuccessHandler((spreadsheetExists)=>{
-            console.log(spreadsheetExists);
             if (spreadsheetExists) {
                 currentActiveSpreadSheetID(spreadSheetID);
                 google.script.run.resumeSpreadsheet(spreadSheetID);
@@ -27173,27 +27169,99 @@ function App() {
         }).initNewSpreadsheet();
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            display: "flex",
-            height: "100vh",
-            alignItems: "center",
-            justifyContent: "center"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _indexKlotskiDefault.default), {
-            activeSpreadSheetID: activeSpreadSheetID
-        }, void 0, false, {
-            fileName: "src/App.js",
-            lineNumber: 43,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    display: "flex",
+                    height: "100vh",
+                    alignItems: "center",
+                    justifyContent: "center"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _indexKlotskiDefault.default), {
+                    activeSpreadSheetID: activeSpreadSheetID,
+                    setPrevStats: setPrevStats
+                }, void 0, false, {
+                    fileName: "src/App.js",
+                    lineNumber: 43,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/App.js",
+                lineNumber: 42,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                id: "stats",
+                style: {
+                    display: "flex",
+                    alignItems: "flex-start",
+                    flexWrap: "wrap",
+                    padding: "15px",
+                    gap: "15px"
+                },
+                children: prevStats?.map((currentStats, index)=>{
+                    const { title , time , moveCount , won  } = currentStats;
+                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        id: `session-${index + 1}`,
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: title
+                            }, void 0, false, {
+                                fileName: "src/App.js",
+                                lineNumber: 50,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Moves made: ",
+                                    moveCount
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 51,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Time: ",
+                                    time
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 52,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Won: ",
+                                    won ? "Yes" : "No"
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 53,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, title, true, {
+                        fileName: "src/App.js",
+                        lineNumber: 49,
+                        columnNumber: 13
+                    }, this);
+                })
+            }, void 0, false, {
+                fileName: "src/App.js",
+                lineNumber: 45,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/App.js",
-        lineNumber: 42,
+        lineNumber: 41,
         columnNumber: 5
     }, this);
 }
 exports.default = App;
-_s(App, "vwA47rmpu+W92PAb78mcbm1sChc=");
+_s(App, "T5zP5eX82joHpCoB/bmkx7zYmqw=");
 _c = App;
 var _c;
 $RefreshReg$(_c, "App");
@@ -27223,7 +27291,7 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _game = require("./Game");
 var _gameDefault = parcelHelpers.interopDefault(_game);
 var _s = $RefreshSig$();
-function Klotski() {
+function Klotski({ setPrevStats  }) {
     _s();
     const canvas = (0, _reactDefault.default).useRef();
     const [pixijsApp, setPixijsApp] = (0, _react.useState)(null);
@@ -27270,6 +27338,21 @@ function Klotski() {
             window.open(url, "_top");
         }).getScriptURL();
     };
+    const handlePreviousStatsClick = ()=>{
+        const spreadSheetID = localStorage.getItem("sheetID");
+        google.script.run.withSuccessHandler((stats)=>{
+            const parsedStats = JSON.parse(stats);
+            setPrevStats(parsedStats);
+            setTimeout(()=>{
+                const ele = document.getElementById(`session-${parsedStats.length}`);
+                ele.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                    inline: "end"
+                });
+            }, 500);
+        }).getSheetStats(spreadSheetID);
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("canvas", {
@@ -27277,7 +27360,7 @@ function Klotski() {
                 id: "canvas"
             }, void 0, false, {
                 fileName: "src/component/klotski/index.klotski.js",
-                lineNumber: 61,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27288,7 +27371,7 @@ function Klotski() {
                         children: "New Game"
                     }, void 0, false, {
                         fileName: "src/component/klotski/index.klotski.js",
-                        lineNumber: 66,
+                        lineNumber: 78,
                         columnNumber: 26
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27304,7 +27387,7 @@ function Klotski() {
                                 children: "Take a picture"
                             }, void 0, false, {
                                 fileName: "src/component/klotski/index.klotski.js",
-                                lineNumber: 68,
+                                lineNumber: 80,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27313,25 +27396,33 @@ function Klotski() {
                                 children: "Save game info"
                             }, void 0, false, {
                                 fileName: "src/component/klotski/index.klotski.js",
-                                lineNumber: 69,
+                                lineNumber: 81,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: handlePreviousStatsClick,
+                                children: "Previous stats"
+                            }, void 0, false, {
+                                fileName: "src/component/klotski/index.klotski.js",
+                                lineNumber: 82,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/component/klotski/index.klotski.js",
-                        lineNumber: 67,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/component/klotski/index.klotski.js",
-                lineNumber: 65,
+                lineNumber: 77,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/component/klotski/index.klotski.js",
-        lineNumber: 60,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 }
@@ -27339,7 +27430,8 @@ exports.default = Klotski;
 _s(Klotski, "ZD6GIaDgwiI2dkIS+WmrO+DRBJU=");
 _c = Klotski;
 Klotski.propTypes = {
-    activeSpreadSheetID: (0, _propTypesDefault.default).string
+    activeSpreadSheetID: (0, _propTypesDefault.default).string,
+    setPrevStats: (0, _propTypesDefault.default).func
 };
 var _c;
 $RefreshReg$(_c, "Klotski");
@@ -66077,24 +66169,24 @@ class Game {
         const listOfBlocks = [];
         const vert1 = new (0, _blockDefault.default)(0 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
         const vert2 = new (0, _blockDefault.default)(0 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
-        // const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
+        const block1 = new (0, _blockDefault.default)(0 + xDelta, 200 + yDelta, (0, _blockUtil.BlockTypes).block, this);
         const main = new (0, _blockDefault.default)(50 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).main, this);
-        // const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
-        // const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
-        // const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
-        // const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
-        // const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
-        // const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
+        const hori1 = new (0, _blockDefault.default)(50 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).horizontal, this);
+        const block2 = new (0, _blockDefault.default)(50 + xDelta, 150 + yDelta, (0, _blockUtil.BlockTypes).block, this);
+        const block3 = new (0, _blockDefault.default)(100 + xDelta, 150 + yDelta, (0, _blockUtil.BlockTypes).block, this);
+        const vert4 = new (0, _blockDefault.default)(150 + xDelta, 0 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const vert5 = new (0, _blockDefault.default)(150 + xDelta, 100 + yDelta, (0, _blockUtil.BlockTypes).vertical, this);
+        const block4 = new (0, _blockDefault.default)(150 + xDelta, 200 + yDelta, (0, _blockUtil.BlockTypes).block, this);
         listOfBlocks.push(vert1);
         listOfBlocks.push(vert2);
-        // listOfBlocks.push(block1)
+        listOfBlocks.push(block1);
         listOfBlocks.push(main);
-        // listOfBlocks.push(hori1)
-        // listOfBlocks.push(block2)
-        // listOfBlocks.push(block3)
-        // listOfBlocks.push(vert4)
-        // listOfBlocks.push(vert5)
-        // listOfBlocks.push(block4)
+        listOfBlocks.push(hori1);
+        listOfBlocks.push(block2);
+        listOfBlocks.push(block3);
+        listOfBlocks.push(vert4);
+        listOfBlocks.push(vert5);
+        listOfBlocks.push(block4);
         this.listOfBlocks = listOfBlocks;
         listOfBlocks.map((block)=>{
             this.updateNewBlockGridPosition(block);

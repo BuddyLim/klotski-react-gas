@@ -67,30 +67,30 @@ export default class Game{
 
     const vert1 = new Block(0 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
     const vert2 = new Block(0 + xDelta , 100 + yDelta, BlockTypes.vertical, this)
-    // const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
+    const block1 = new Block(0 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
     const main = new Block(50 + xDelta, 0 + yDelta, BlockTypes.main, this)
-    // const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
-    // const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
-    // const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
+    const hori1 = new Block(50 + xDelta, 100 + yDelta, BlockTypes.horizontal, this)
+    const block2 = new Block(50 + xDelta, 150 + yDelta, BlockTypes.block, this)
+    const block3 = new Block(100 + xDelta, 150 + yDelta, BlockTypes.block, this)
 
-    // const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
-    // const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
-    // const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
+    const vert4 = new Block(150 + xDelta, 0 + yDelta, BlockTypes.vertical, this)
+    const vert5 = new Block(150 + xDelta, 100 + yDelta, BlockTypes.vertical, this)
+    const block4 = new Block(150 + xDelta, 200 + yDelta, BlockTypes.block, this)
 
     listOfBlocks.push(vert1)
     listOfBlocks.push(vert2)
-    // listOfBlocks.push(block1)
+    listOfBlocks.push(block1)
 
     listOfBlocks.push(main)
-    // listOfBlocks.push(hori1)
+    listOfBlocks.push(hori1)
 
-    // listOfBlocks.push(block2)
-    // listOfBlocks.push(block3)
+    listOfBlocks.push(block2)
+    listOfBlocks.push(block3)
 
-    // listOfBlocks.push(vert4)
-    // listOfBlocks.push(vert5)
-    // listOfBlocks.push(block4)
+    listOfBlocks.push(vert4)
+    listOfBlocks.push(vert5)
+    listOfBlocks.push(block4)
 
     this.listOfBlocks = listOfBlocks
 
