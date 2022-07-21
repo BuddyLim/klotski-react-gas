@@ -21,6 +21,8 @@
     },
     "globals": {
         "google": true,
-        "SpreadsheetApp": true
+        "SpreadsheetApp": true,
+        "DriveApp": true,
+        "Logger": true
     }
 }

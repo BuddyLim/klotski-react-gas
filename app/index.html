@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <html>
-    <head><link rel="stylesheet" href="/index.c03e2ffa.css">
+    <head>
         <meta charset="utf-8">
         <title>Klotski React GAS</title>
     </head>
+    <style>@font-face {
+  font-family: zCoolFont;
+  src: url("https://fonts.googleapis.com/css?family=ZCOOL QingKe HuangYou");
+}
+
+#moves-made {
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: zCoolFont;
+  font-size: 1.8rem;
+}
+
+.buttons-container {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.buttons-container > * {
+  margin-top: 10px;
+}
+
+.buttons-container > button {
+  font-family: zCoolFont;
+  font-size: 1.2rem;
+}
+
+.warning-bar, #warning {
+  visibility: hidden;
+  display: none !important;
+}
+
+
+
+</style>
     <body>
       <div id="app"></div>
       <script>// modules are defined as an array
@@ -2512,14 +2547,14 @@ process.umask = function() {
     return 0;
 };
 
-},{}],"3v4hp":[function(require,module,exports) {
+},{}],"bk8l4":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "40a4d1f8f571b347";
+module.bundle.HMR_BUNDLE_ID = "1b36cf62f91d4919";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
@@ -2901,7 +2936,7 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"8rYH3":[function(require,module,exports) {
+},{}],"gmHWq":[function(require,module,exports) {
 var _indexJs = require("./index.js");
 
 },{"./index.js":"8lqZg"}],"8lqZg":[function(require,module,exports) {
@@ -2931,7 +2966,7 @@ root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _appDefault.default), {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-dom/client":"lOjBx","./App":"2kQhy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react-dom/client":"lOjBx","./App":"2kQhy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("./cjs/react-jsx-dev-runtime.development.js");
 
@@ -5632,127 +5667,7 @@ module.exports = require("./cjs/react.development.js");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{}],"km3Ru":[function(require,module,exports) {
-"use strict";
-var Refresh = require("react-refresh/runtime");
-function debounce(func, delay) {
-    var args1;
-    var timeout = undefined;
-    return function(args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            timeout = undefined;
-            func.call(null, args);
-        }, delay);
-    };
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module) {
-    if (isReactRefreshBoundary(module.exports)) {
-        registerExportsForReactRefresh(module);
-        if (module.hot) {
-            module.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module.exports;
-            });
-            module.hot.accept(function(getParents) {
-                var prevExports = module.hot.data.prevExports;
-                var nextExports = module.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module) {
-    var exports = module.exports, id = module.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"react-refresh/runtime":"786KC"}],"lOjBx":[function(require,module,exports) {
+},{}],"lOjBx":[function(require,module,exports) {
 "use strict";
 var m = require("react-dom");
 var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
@@ -27218,43 +27133,135 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _indexKlotski = require("./component/klotski/index.klotski");
 var _indexKlotskiDefault = parcelHelpers.interopDefault(_indexKlotski);
-var _appCss = require("./App.css");
 var _s = $RefreshSig$();
 function App() {
     _s();
     const [activeSpreadSheetID, currentActiveSpreadSheetID] = (0, _react.useState)(undefined);
+    const [prevStats, setPrevStats] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
-        if (activeSpreadSheetID === undefined && typeof google !== "undefined") //https://stackoverflow.com/questions/11487045/how-to-use-google-script-run-as-if-it-was-a-function
-        google.script.run.withSuccessHandler((result)=>{
-            console.log("activeSpreadSheetID", result);
-            currentActiveSpreadSheetID(result);
-            localStorage.setItem("gameData", `${result}`);
-        }).initNewGameSession();
+        if (activeSpreadSheetID === undefined && typeof google !== "undefined") {
+            //https://stackoverflow.com/questions/22898501/create-a-new-sheet-in-a-google-sheets-with-google-apps-script
+            const spreadSheetID = localStorage.getItem("sheetID");
+            if (spreadSheetID != null && spreadSheetID.length > 0) {
+                handleExistingSpreedsheet(spreadSheetID);
+                return;
+            }
+            //https://stackoverflow.com/questions/11487045/how-to-use-google-script-run-as-if-it-was-a-function
+            handleNewSpreadsheet();
+        }
     }, [
         activeSpreadSheetID
     ]);
+    const handleExistingSpreedsheet = (spreadSheetID)=>{
+        google.script.run.withSuccessHandler((spreadsheetExists)=>{
+            if (spreadsheetExists) {
+                currentActiveSpreadSheetID(spreadSheetID);
+                google.script.run.resumeSpreadsheet(spreadSheetID);
+                return;
+            }
+            handleNewSpreadsheet();
+        }).checkIfSpreadsheetExists(spreadSheetID);
+    };
+    const handleNewSpreadsheet = ()=>{
+        google.script.run.withSuccessHandler((spreadSheetID)=>{
+            currentActiveSpreadSheetID(spreadSheetID);
+            localStorage.setItem("sheetID", `${spreadSheetID}`);
+        }).initNewSpreadsheet();
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            display: "flex",
-            height: "100vh",
-            alignItems: "center",
-            justifyContent: "center"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _indexKlotskiDefault.default), {
-            activeSpreadSheetID: activeSpreadSheetID
-        }, void 0, false, {
-            fileName: "src/App.js",
-            lineNumber: 21,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    display: "flex",
+                    height: "100vh",
+                    alignItems: "center",
+                    justifyContent: "center"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _indexKlotskiDefault.default), {
+                    activeSpreadSheetID: activeSpreadSheetID,
+                    setPrevStats: setPrevStats
+                }, void 0, false, {
+                    fileName: "src/App.js",
+                    lineNumber: 43,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/App.js",
+                lineNumber: 42,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                id: "stats",
+                style: {
+                    display: "flex",
+                    alignItems: "flex-start",
+                    flexWrap: "wrap",
+                    padding: "15px",
+                    gap: "15px"
+                },
+                children: prevStats?.map((currentStats, index)=>{
+                    const { title , time , moveCount , won  } = currentStats;
+                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        id: `session-${index + 1}`,
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: title
+                            }, void 0, false, {
+                                fileName: "src/App.js",
+                                lineNumber: 50,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Moves made: ",
+                                    moveCount
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 51,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Time: ",
+                                    time
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 52,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    "Won: ",
+                                    won ? "Yes" : "No"
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/App.js",
+                                lineNumber: 53,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, title, true, {
+                        fileName: "src/App.js",
+                        lineNumber: 49,
+                        columnNumber: 13
+                    }, this);
+                })
+            }, void 0, false, {
+                fileName: "src/App.js",
+                lineNumber: 45,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/App.js",
-        lineNumber: 20,
+        lineNumber: 41,
         columnNumber: 5
     }, this);
 }
 exports.default = App;
-_s(App, "vwA47rmpu+W92PAb78mcbm1sChc=");
+_s(App, "T5zP5eX82joHpCoB/bmkx7zYmqw=");
 _c = App;
 var _c;
 $RefreshReg$(_c, "App");
@@ -27264,37 +27271,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./component/klotski/index.klotski":"gTr43","./App.css":"6n0o6"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"gTr43":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./component/klotski/index.klotski":"gTr43","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"gTr43":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$a6d7 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27306,16 +27283,21 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _dayjs = require("dayjs");
+var _dayjsDefault = parcelHelpers.interopDefault(_dayjs);
 var _pixiJs = require("pixi.js");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _game = require("./Game");
 var _gameDefault = parcelHelpers.interopDefault(_game);
 var _s = $RefreshSig$();
-function Klotski() {
+function Klotski({ setPrevStats  }) {
     _s();
     const canvas = (0, _reactDefault.default).useRef();
     const [pixijsApp, setPixijsApp] = (0, _react.useState)(null);
+    const [game1, setGame] = (0, _react.useState)(null);
+    const [isResetShown, setResetShown] = (0, _react.useState)(false);
+    const [currentCellIndex, setCurrentCellIndex] = (0, _react.useState)(2);
     (0, _react.useEffect)(()=>{
         const app = new _pixiJs.Application({
             backgroundColor: 0xFFFFFF,
@@ -27325,8 +27307,9 @@ function Klotski() {
             preserveDrawingBuffer: true,
             backgroundAlpha: 1
         });
-        new (0, _gameDefault.default)(app);
+        const game = new (0, _gameDefault.default)(app, setResetShown);
         setPixijsApp(app);
+        setGame(game);
     }, []);
     const handleTakePicture = ()=>{
         const renderTexture = _pixiJs.autoDetectRenderer({
@@ -27344,6 +27327,32 @@ function Klotski() {
         download.target = "_blank";
         download.click();
     };
+    const handleSaveCurrentGameInfo = ()=>{
+        const spreadSheetID = localStorage.getItem("sheetID");
+        const date = (0, _dayjsDefault.default)().format("hh:mm:ss a");
+        google.script.run.addDataToSheet(spreadSheetID, date, game1.moveCount, game1.win);
+    // setCurrentCellIndex(prevIndex => { return ++prevIndex })
+    };
+    const handleResetGame = ()=>{
+        google.script.run.withSuccessHandler(function(url) {
+            window.open(url, "_top");
+        }).getScriptURL();
+    };
+    const handlePreviousStatsClick = ()=>{
+        const spreadSheetID = localStorage.getItem("sheetID");
+        google.script.run.withSuccessHandler((stats)=>{
+            const parsedStats = JSON.parse(stats);
+            setPrevStats(parsedStats);
+            setTimeout(()=>{
+                const ele = document.getElementById(`session-${parsedStats.length}`);
+                ele.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                    inline: "end"
+                });
+            }, 500);
+        }).getSheetStats(spreadSheetID);
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("canvas", {
@@ -27351,41 +27360,78 @@ function Klotski() {
                 id: "canvas"
             }, void 0, false, {
                 fileName: "src/component/klotski/index.klotski.js",
-                lineNumber: 43,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                },
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                    id: "take-picture",
-                    onClick: handleTakePicture,
-                    children: "Take a picture"
-                }, void 0, false, {
-                    fileName: "src/component/klotski/index.klotski.js",
-                    lineNumber: 48,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
+                className: "buttons-container",
+                children: [
+                    isResetShown && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        onClick: handleResetGame,
+                        children: "New Game"
+                    }, void 0, false, {
+                        fileName: "src/component/klotski/index.klotski.js",
+                        lineNumber: 78,
+                        columnNumber: 26
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "buttons-container",
+                        style: {
+                            flexDirection: "row",
+                            gap: "10px"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                id: "take-picture",
+                                onClick: handleTakePicture,
+                                children: "Take a picture"
+                            }, void 0, false, {
+                                fileName: "src/component/klotski/index.klotski.js",
+                                lineNumber: 80,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                id: "take-picture",
+                                onClick: handleSaveCurrentGameInfo,
+                                children: "Save game info"
+                            }, void 0, false, {
+                                fileName: "src/component/klotski/index.klotski.js",
+                                lineNumber: 81,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: handlePreviousStatsClick,
+                                children: "Previous stats"
+                            }, void 0, false, {
+                                fileName: "src/component/klotski/index.klotski.js",
+                                lineNumber: 82,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/component/klotski/index.klotski.js",
+                        lineNumber: 79,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "src/component/klotski/index.klotski.js",
-                lineNumber: 47,
+                lineNumber: 77,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/component/klotski/index.klotski.js",
-        lineNumber: 42,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 }
 exports.default = Klotski;
-_s(Klotski, "OjlRyXjvz7FnYVnCwRcPSrK6Tlo=");
+_s(Klotski, "ZD6GIaDgwiI2dkIS+WmrO+DRBJU=");
 _c = Klotski;
 Klotski.propTypes = {
-    activeSpreadSheetID: (0, _propTypesDefault.default).string
+    activeSpreadSheetID: (0, _propTypesDefault.default).string,
+    setPrevStats: (0, _propTypesDefault.default).func
 };
 var _c;
 $RefreshReg$(_c, "Klotski");
@@ -27395,7 +27441,7 @@ $RefreshReg$(_c, "Klotski");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"prop-types":"7wKI2","pixi.js":"dsYej","react":"21dqq","./Game":"dFoPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react/jsx-dev-runtime":"iTorj"}],"7wKI2":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","pixi.js":"dsYej","react":"21dqq","./Game":"dFoPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","dayjs":"NJZFB"}],"7wKI2":[function(require,module,exports) {
 var ReactIs = require("react-is");
 // By explicitly using `prop-types` you are opting into new development behavior.
 // http://fb.me/prop-types-in-prod
@@ -28571,7 +28617,37 @@ parcelHelpers.defineInteropFlag(exports);
 }
 exports.default = finallyConstructor;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iCseJ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"iCseJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function allSettled(arr) {
@@ -66004,6 +66080,10 @@ var _block = require("./Block");
 var _blockDefault = parcelHelpers.interopDefault(_block);
 var _blockUtil = require("./Block.util");
 var _pixiJs = require("pixi.js");
+var _wall = require("./Wall");
+var _wallDefault = parcelHelpers.interopDefault(_wall);
+var _canvasConfetti = require("canvas-confetti");
+var _canvasConfettiDefault = parcelHelpers.interopDefault(_canvasConfetti);
 class Game {
     app = null;
     gridSize = 50;
@@ -66059,7 +66139,7 @@ class Game {
         }
     };
     xOffsetFactor = 6;
-    yOffsetFactor = 1;
+    yOffsetFactor = 1.5;
     bounds = {
         //For my sanity to interpolate coordinates to grid indices
         x: this.grid[0].length * this.gridSize + this.gridSize * this.xOffsetFactor,
@@ -66067,8 +66147,11 @@ class Game {
     };
     moveCount = 0;
     moveCounterText = "";
-    constructor(app){
+    win = false;
+    reactFnSetResetShown = null;
+    constructor(app, reactFnSetResetShown){
         this.app = app;
+        this.reactFnSetResetShown = reactFnSetResetShown;
         this.initGame();
     }
     initGame = ()=>{
@@ -66108,8 +66191,17 @@ class Game {
         listOfBlocks.map((block)=>{
             this.updateNewBlockGridPosition(block);
             this.app.stage.addChild(block.graphic);
-            block.graphic.cacheAsBitmap = false;
         });
+        const wall1 = new (0, _wallDefault.default)(300, 59, 200, 15);
+        const wall2 = new (0, _wallDefault.default)(285, 59, 15, 266);
+        const wall3 = new (0, _wallDefault.default)(500, 59, 15, 266);
+        const wall4 = new (0, _wallDefault.default)(285, 325, 65, 15);
+        const wall5 = new (0, _wallDefault.default)(450, 325, 65, 15);
+        this.app.stage.addChild(wall1.graphic);
+        this.app.stage.addChild(wall2.graphic);
+        this.app.stage.addChild(wall3.graphic);
+        this.app.stage.addChild(wall4.graphic);
+        this.app.stage.addChild(wall5.graphic);
         this.moveCounterText = new _pixiJs.Text(`Moves made: ${this.moveCount}`, {
             fontFamily: "Arial",
             fontSize: 24,
@@ -66129,15 +66221,17 @@ class Game {
         }
     };
     handleAppMouseDown = (e)=>{
-        const { offsetX , offsetY  } = e;
-        const gridX = Math.floor((offsetX - this.xOffsetFactor * this.gridSize) / this.gridSize);
-        const gridY = Math.floor((offsetY - this.yOffsetFactor * this.gridSize) / this.gridSize);
-        const block = this.grid[gridY][gridX];
-        this.selected.block = block;
-        this.selected.grid = {
-            x: gridX,
-            y: gridY
-        };
+        if (!this.win) {
+            const { offsetX , offsetY  } = e;
+            const gridX = Math.floor((offsetX - this.xOffsetFactor * this.gridSize) / this.gridSize);
+            const gridY = Math.floor((offsetY - this.yOffsetFactor * this.gridSize) / this.gridSize);
+            const block = this.grid[gridY][gridX];
+            this.selected.block = block;
+            this.selected.grid = {
+                x: gridX,
+                y: gridY
+            };
+        }
     };
     handleAppMouseUp = (e)=>{
         const { offsetX , offsetY  } = e;
@@ -66163,19 +66257,18 @@ class Game {
         this.selected.block.handleBlockMove(newGridPos * this.gridSize, direction);
         //Update new position
         this.updateNewBlockGridPosition(this.selected.block);
-        this.reactFnSetMoveCounter((prevCount)=>{
-            return ++prevCount;
-        });
         ++this.moveCount;
         this.moveCounterText.text = `Moves made: ${this.moveCount}`;
         const isWin = this.checkIfWon();
-        if (isWin) console.log("Won!");
+        if (isWin) this.handleWin();
     };
     handleBlockMovement = (startingGrid, endingGrid, delta, direction, neighbourDirection)=>{
-        const containsBlockInPath = this.checkNeighbours(startingGrid, endingGrid, neighbourDirection);
-        if (!containsBlockInPath) {
-            const existingBlock = this.checkIfOverlapNeighbour(delta, direction);
-            if (!existingBlock) this.handleUpdateBlockPosition(delta, direction);
+        if (this.selected.block) {
+            const containsBlockInPath = this.selected.block != null && this.checkNeighbours(startingGrid, endingGrid, neighbourDirection);
+            if (!containsBlockInPath) {
+                const existingBlock = this.checkIfOverlapNeighbour(delta, direction);
+                if (!existingBlock) this.handleUpdateBlockPosition(delta, direction);
+            }
         }
     };
     checkIfWon = ()=>{
@@ -66228,10 +66321,55 @@ class Game {
             }
         }
     };
+    handleWin = ()=>{
+        console.log("Won!");
+        this.win = true;
+        this.fireConfetti();
+        this.moveCounterText.text = `You Win!\nMoves made: ${this.moveCount}`;
+        this.reactFnSetResetShown(true);
+    // setTimeout(() =>{
+    //   location.reload()
+    // }, 5000)
+    };
+    fireConfetti = ()=>{
+        const count = 200;
+        const defaults = {
+            origin: {
+                y: 0.8
+            }
+        };
+        function fire(particleRatio, opts) {
+            (0, _canvasConfettiDefault.default)(Object.assign({}, defaults, opts, {
+                particleCount: Math.floor(count * particleRatio)
+            }));
+        }
+        fire(0.25, {
+            spread: 26,
+            startVelocity: 55
+        });
+        fire(0.2, {
+            spread: 60
+        });
+        fire(0.35, {
+            spread: 100,
+            decay: 0.91,
+            scalar: 0.8
+        });
+        fire(0.1, {
+            spread: 120,
+            startVelocity: 25,
+            decay: 0.92,
+            scalar: 1.2
+        });
+        fire(0.1, {
+            spread: 120,
+            startVelocity: 45
+        });
+    };
 }
 exports.default = Game;
 
-},{"./Block":"73Eb0","./Block.util":"hYCF3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","pixi.js":"dsYej"}],"73Eb0":[function(require,module,exports) {
+},{"./Block":"73Eb0","./Block.util":"hYCF3","pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Wall":"id1If","canvas-confetti":"cIEGq"}],"73Eb0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _pixiJs = require("pixi.js");
@@ -66303,7 +66441,7 @@ class Block {
 }
 exports.default = Block;
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","uuid":"j4KJi"}],"j4KJi":[function(require,module,exports) {
+},{"pixi.js":"dsYej","uuid":"j4KJi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j4KJi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "v1", ()=>(0, _v1JsDefault.default));
@@ -66423,7 +66561,7 @@ const BlockTypes = {
         xFactor: 2,
         yFactor: 1,
         type: "horizontal",
-        color: 0xEBEBD3
+        color: 0x0FFF0
     },
     vertical: {
         xFactor: 1,
@@ -66445,7 +66583,903 @@ const BlockTypes = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6n0o6":[function() {},{}]},["1xC6H","3v4hp","8rYH3"], "8rYH3", "parcelRequired92c")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"id1If":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _pixiJs = require("pixi.js");
+class Wall {
+    graphic = null;
+    constructor(x, y, width, height){
+        this.graphic = new _pixiJs.Graphics();
+        // this.graphic.line.width = 0x0000
+        this.graphic.lineStyle(1.2, 0x00000);
+        this.graphic.beginFill(0x00000);
+        this.graphic.drawRect(0, 0, width, height);
+        this.graphic.endFill();
+        this.graphic.position.set(x, y);
+    }
+}
+exports.default = Wall;
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cIEGq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "create", ()=>create);
+// canvas-confetti v1.5.1 built on 2022-02-08T22:20:40.944Z
+var module = {};
+// source content
+(function main(global, module1, isWorker, workerSize) {
+    var canUseWorker = !!(global.Worker && global.Blob && global.Promise && global.OffscreenCanvas && global.OffscreenCanvasRenderingContext2D && global.HTMLCanvasElement && global.HTMLCanvasElement.prototype.transferControlToOffscreen && global.URL && global.URL.createObjectURL);
+    function noop() {}
+    // create a promise if it exists, otherwise, just
+    // call the function directly
+    function promise(func) {
+        var ModulePromise = module1.exports.Promise;
+        var Prom = ModulePromise !== void 0 ? ModulePromise : global.Promise;
+        if (typeof Prom === "function") return new Prom(func);
+        func(noop, noop);
+        return null;
+    }
+    var raf = function() {
+        var TIME = Math.floor(1000 / 60);
+        var frame, cancel;
+        var frames = {};
+        var lastFrameTime = 0;
+        if (typeof requestAnimationFrame === "function" && typeof cancelAnimationFrame === "function") {
+            frame = function(cb) {
+                var id = Math.random();
+                frames[id] = requestAnimationFrame(function onFrame(time) {
+                    if (lastFrameTime === time || lastFrameTime + TIME - 1 < time) {
+                        lastFrameTime = time;
+                        delete frames[id];
+                        cb();
+                    } else frames[id] = requestAnimationFrame(onFrame);
+                });
+                return id;
+            };
+            cancel = function(id) {
+                if (frames[id]) cancelAnimationFrame(frames[id]);
+            };
+        } else {
+            frame = function(cb) {
+                return setTimeout(cb, TIME);
+            };
+            cancel = function(timer) {
+                return clearTimeout(timer);
+            };
+        }
+        return {
+            frame: frame,
+            cancel: cancel
+        };
+    }();
+    var getWorker = function() {
+        var worker1;
+        var prom;
+        var resolves = {};
+        function decorate(worker) {
+            function execute(options, callback) {
+                worker.postMessage({
+                    options: options || {},
+                    callback: callback
+                });
+            }
+            worker.init = function initWorker(canvas) {
+                var offscreen = canvas.transferControlToOffscreen();
+                worker.postMessage({
+                    canvas: offscreen
+                }, [
+                    offscreen
+                ]);
+            };
+            worker.fire = function fireWorker(options, size, done) {
+                if (prom) {
+                    execute(options, null);
+                    return prom;
+                }
+                var id = Math.random().toString(36).slice(2);
+                prom = promise(function(resolve) {
+                    function workerDone(msg) {
+                        if (msg.data.callback !== id) return;
+                        delete resolves[id];
+                        worker.removeEventListener("message", workerDone);
+                        prom = null;
+                        done();
+                        resolve();
+                    }
+                    worker.addEventListener("message", workerDone);
+                    execute(options, id);
+                    resolves[id] = workerDone.bind(null, {
+                        data: {
+                            callback: id
+                        }
+                    });
+                });
+                return prom;
+            };
+            worker.reset = function resetWorker() {
+                worker.postMessage({
+                    reset: true
+                });
+                for(var id in resolves){
+                    resolves[id]();
+                    delete resolves[id];
+                }
+            };
+        }
+        return function() {
+            if (worker1) return worker1;
+            if (!isWorker && canUseWorker) {
+                var code = [
+                    "var CONFETTI, SIZE = {}, module = {};",
+                    "(" + main.toString() + ")(this, module, true, SIZE);",
+                    "onmessage = function(msg) {",
+                    "  if (msg.data.options) {",
+                    "    CONFETTI(msg.data.options).then(function () {",
+                    "      if (msg.data.callback) {",
+                    "        postMessage({ callback: msg.data.callback });",
+                    "      }",
+                    "    });",
+                    "  } else if (msg.data.reset) {",
+                    "    CONFETTI.reset();",
+                    "  } else if (msg.data.resize) {",
+                    "    SIZE.width = msg.data.resize.width;",
+                    "    SIZE.height = msg.data.resize.height;",
+                    "  } else if (msg.data.canvas) {",
+                    "    SIZE.width = msg.data.canvas.width;",
+                    "    SIZE.height = msg.data.canvas.height;",
+                    "    CONFETTI = module.exports.create(msg.data.canvas);",
+                    "  }",
+                    "}", 
+                ].join("\n");
+                try {
+                    worker1 = new Worker(URL.createObjectURL(new Blob([
+                        code
+                    ])));
+                } catch (e) {
+                    // eslint-disable-next-line no-console
+                    typeof console.warn === "function" && console.warn("\uD83C\uDF8A Could not load worker", e);
+                    return null;
+                }
+                decorate(worker1);
+            }
+            return worker1;
+        };
+    }();
+    var defaults = {
+        particleCount: 50,
+        angle: 90,
+        spread: 45,
+        startVelocity: 45,
+        decay: 0.9,
+        gravity: 1,
+        drift: 0,
+        ticks: 200,
+        x: 0.5,
+        y: 0.5,
+        shapes: [
+            "square",
+            "circle"
+        ],
+        zIndex: 100,
+        colors: [
+            "#26ccff",
+            "#a25afd",
+            "#ff5e7e",
+            "#88ff5a",
+            "#fcff42",
+            "#ffa62d",
+            "#ff36ff"
+        ],
+        // probably should be true, but back-compat
+        disableForReducedMotion: false,
+        scalar: 1
+    };
+    function convert(val, transform) {
+        return transform ? transform(val) : val;
+    }
+    function isOk(val) {
+        return !(val === null || val === undefined);
+    }
+    function prop(options, name, transform) {
+        return convert(options && isOk(options[name]) ? options[name] : defaults[name], transform);
+    }
+    function onlyPositiveInt(number) {
+        return number < 0 ? 0 : Math.floor(number);
+    }
+    function randomInt(min, max) {
+        // [min, max)
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+    function toDecimal(str) {
+        return parseInt(str, 16);
+    }
+    function colorsToRgb(colors) {
+        return colors.map(hexToRgb);
+    }
+    function hexToRgb(str) {
+        var val = String(str).replace(/[^0-9a-f]/gi, "");
+        if (val.length < 6) val = val[0] + val[0] + val[1] + val[1] + val[2] + val[2];
+        return {
+            r: toDecimal(val.substring(0, 2)),
+            g: toDecimal(val.substring(2, 4)),
+            b: toDecimal(val.substring(4, 6))
+        };
+    }
+    function getOrigin(options) {
+        var origin = prop(options, "origin", Object);
+        origin.x = prop(origin, "x", Number);
+        origin.y = prop(origin, "y", Number);
+        return origin;
+    }
+    function setCanvasWindowSize(canvas) {
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+    }
+    function setCanvasRectSize(canvas) {
+        var rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+    }
+    function getCanvas(zIndex) {
+        var canvas = document.createElement("canvas");
+        canvas.style.position = "fixed";
+        canvas.style.top = "0px";
+        canvas.style.left = "0px";
+        canvas.style.pointerEvents = "none";
+        canvas.style.zIndex = zIndex;
+        return canvas;
+    }
+    function ellipse(context, x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
+        context.save();
+        context.translate(x, y);
+        context.rotate(rotation);
+        context.scale(radiusX, radiusY);
+        context.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+        context.restore();
+    }
+    function randomPhysics(opts) {
+        var radAngle = opts.angle * (Math.PI / 180);
+        var radSpread = opts.spread * (Math.PI / 180);
+        return {
+            x: opts.x,
+            y: opts.y,
+            wobble: Math.random() * 10,
+            wobbleSpeed: Math.min(0.11, Math.random() * 0.1 + 0.05),
+            velocity: opts.startVelocity * 0.5 + Math.random() * opts.startVelocity,
+            angle2D: -radAngle + (0.5 * radSpread - Math.random() * radSpread),
+            tiltAngle: (Math.random() * 0.5 + 0.25) * Math.PI,
+            color: opts.color,
+            shape: opts.shape,
+            tick: 0,
+            totalTicks: opts.ticks,
+            decay: opts.decay,
+            drift: opts.drift,
+            random: Math.random() + 2,
+            tiltSin: 0,
+            tiltCos: 0,
+            wobbleX: 0,
+            wobbleY: 0,
+            gravity: opts.gravity * 3,
+            ovalScalar: 0.6,
+            scalar: opts.scalar
+        };
+    }
+    function updateFetti(context, fetti) {
+        fetti.x += Math.cos(fetti.angle2D) * fetti.velocity + fetti.drift;
+        fetti.y += Math.sin(fetti.angle2D) * fetti.velocity + fetti.gravity;
+        fetti.wobble += fetti.wobbleSpeed;
+        fetti.velocity *= fetti.decay;
+        fetti.tiltAngle += 0.1;
+        fetti.tiltSin = Math.sin(fetti.tiltAngle);
+        fetti.tiltCos = Math.cos(fetti.tiltAngle);
+        fetti.random = Math.random() + 2;
+        fetti.wobbleX = fetti.x + 10 * fetti.scalar * Math.cos(fetti.wobble);
+        fetti.wobbleY = fetti.y + 10 * fetti.scalar * Math.sin(fetti.wobble);
+        var progress = (fetti.tick++) / fetti.totalTicks;
+        var x1 = fetti.x + fetti.random * fetti.tiltCos;
+        var y1 = fetti.y + fetti.random * fetti.tiltSin;
+        var x2 = fetti.wobbleX + fetti.random * fetti.tiltCos;
+        var y2 = fetti.wobbleY + fetti.random * fetti.tiltSin;
+        context.fillStyle = "rgba(" + fetti.color.r + ", " + fetti.color.g + ", " + fetti.color.b + ", " + (1 - progress) + ")";
+        context.beginPath();
+        if (fetti.shape === "circle") context.ellipse ? context.ellipse(fetti.x, fetti.y, Math.abs(x2 - x1) * fetti.ovalScalar, Math.abs(y2 - y1) * fetti.ovalScalar, Math.PI / 10 * fetti.wobble, 0, 2 * Math.PI) : ellipse(context, fetti.x, fetti.y, Math.abs(x2 - x1) * fetti.ovalScalar, Math.abs(y2 - y1) * fetti.ovalScalar, Math.PI / 10 * fetti.wobble, 0, 2 * Math.PI);
+        else {
+            context.moveTo(Math.floor(fetti.x), Math.floor(fetti.y));
+            context.lineTo(Math.floor(fetti.wobbleX), Math.floor(y1));
+            context.lineTo(Math.floor(x2), Math.floor(y2));
+            context.lineTo(Math.floor(x1), Math.floor(fetti.wobbleY));
+        }
+        context.closePath();
+        context.fill();
+        return fetti.tick < fetti.totalTicks;
+    }
+    function animate(canvas, fettis1, resizer, size, done) {
+        var animatingFettis = fettis1.slice();
+        var context = canvas.getContext("2d");
+        var animationFrame;
+        var destroy;
+        var prom = promise(function(resolve) {
+            function onDone() {
+                animationFrame = destroy = null;
+                context.clearRect(0, 0, size.width, size.height);
+                done();
+                resolve();
+            }
+            function update() {
+                if (isWorker && !(size.width === workerSize.width && size.height === workerSize.height)) {
+                    size.width = canvas.width = workerSize.width;
+                    size.height = canvas.height = workerSize.height;
+                }
+                if (!size.width && !size.height) {
+                    resizer(canvas);
+                    size.width = canvas.width;
+                    size.height = canvas.height;
+                }
+                context.clearRect(0, 0, size.width, size.height);
+                animatingFettis = animatingFettis.filter(function(fetti) {
+                    return updateFetti(context, fetti);
+                });
+                if (animatingFettis.length) animationFrame = raf.frame(update);
+                else onDone();
+            }
+            animationFrame = raf.frame(update);
+            destroy = onDone;
+        });
+        return {
+            addFettis: function(fettis) {
+                animatingFettis = animatingFettis.concat(fettis);
+                return prom;
+            },
+            canvas: canvas,
+            promise: prom,
+            reset: function() {
+                if (animationFrame) raf.cancel(animationFrame);
+                if (destroy) destroy();
+            }
+        };
+    }
+    function confettiCannon(canvas, globalOpts) {
+        var isLibCanvas = !canvas;
+        var allowResize = !!prop(globalOpts || {}, "resize");
+        var globalDisableForReducedMotion = prop(globalOpts, "disableForReducedMotion", Boolean);
+        var shouldUseWorker = canUseWorker && !!prop(globalOpts || {}, "useWorker");
+        var worker = shouldUseWorker ? getWorker() : null;
+        var resizer = isLibCanvas ? setCanvasWindowSize : setCanvasRectSize;
+        var initialized = canvas && worker ? !!canvas.__confetti_initialized : false;
+        var preferLessMotion = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion)").matches;
+        var animationObj;
+        function fireLocal(options, size, done) {
+            var particleCount = prop(options, "particleCount", onlyPositiveInt);
+            var angle = prop(options, "angle", Number);
+            var spread = prop(options, "spread", Number);
+            var startVelocity = prop(options, "startVelocity", Number);
+            var decay = prop(options, "decay", Number);
+            var gravity = prop(options, "gravity", Number);
+            var drift = prop(options, "drift", Number);
+            var colors = prop(options, "colors", colorsToRgb);
+            var ticks = prop(options, "ticks", Number);
+            var shapes = prop(options, "shapes");
+            var scalar = prop(options, "scalar");
+            var origin = getOrigin(options);
+            var temp = particleCount;
+            var fettis = [];
+            var startX = canvas.width * origin.x;
+            var startY = canvas.height * origin.y;
+            while(temp--)fettis.push(randomPhysics({
+                x: startX,
+                y: startY,
+                angle: angle,
+                spread: spread,
+                startVelocity: startVelocity,
+                color: colors[temp % colors.length],
+                shape: shapes[randomInt(0, shapes.length)],
+                ticks: ticks,
+                decay: decay,
+                gravity: gravity,
+                drift: drift,
+                scalar: scalar
+            }));
+            // if we have a previous canvas already animating,
+            // add to it
+            if (animationObj) return animationObj.addFettis(fettis);
+            animationObj = animate(canvas, fettis, resizer, size, done);
+            return animationObj.promise;
+        }
+        function fire(options) {
+            var disableForReducedMotion = globalDisableForReducedMotion || prop(options, "disableForReducedMotion", Boolean);
+            var zIndex = prop(options, "zIndex", Number);
+            if (disableForReducedMotion && preferLessMotion) return promise(function(resolve) {
+                resolve();
+            });
+            if (isLibCanvas && animationObj) // use existing canvas from in-progress animation
+            canvas = animationObj.canvas;
+            else if (isLibCanvas && !canvas) {
+                // create and initialize a new canvas
+                canvas = getCanvas(zIndex);
+                document.body.appendChild(canvas);
+            }
+            if (allowResize && !initialized) // initialize the size of a user-supplied canvas
+            resizer(canvas);
+            var size = {
+                width: canvas.width,
+                height: canvas.height
+            };
+            if (worker && !initialized) worker.init(canvas);
+            initialized = true;
+            if (worker) canvas.__confetti_initialized = true;
+            function onResize() {
+                if (worker) {
+                    // TODO this really shouldn't be immediate, because it is expensive
+                    var obj = {
+                        getBoundingClientRect: function() {
+                            if (!isLibCanvas) return canvas.getBoundingClientRect();
+                        }
+                    };
+                    resizer(obj);
+                    worker.postMessage({
+                        resize: {
+                            width: obj.width,
+                            height: obj.height
+                        }
+                    });
+                    return;
+                }
+                // don't actually query the size here, since this
+                // can execute frequently and rapidly
+                size.width = size.height = null;
+            }
+            function done() {
+                animationObj = null;
+                if (allowResize) global.removeEventListener("resize", onResize);
+                if (isLibCanvas && canvas) {
+                    document.body.removeChild(canvas);
+                    canvas = null;
+                    initialized = false;
+                }
+            }
+            if (allowResize) global.addEventListener("resize", onResize, false);
+            if (worker) return worker.fire(options, size, done);
+            return fireLocal(options, size, done);
+        }
+        fire.reset = function() {
+            if (worker) worker.reset();
+            if (animationObj) animationObj.reset();
+        };
+        return fire;
+    }
+    // Make default export lazy to defer worker creation until called.
+    var defaultFire;
+    function getDefaultFire() {
+        if (!defaultFire) defaultFire = confettiCannon(null, {
+            useWorker: true,
+            resize: true
+        });
+        return defaultFire;
+    }
+    module1.exports = function() {
+        return getDefaultFire().apply(this, arguments);
+    };
+    module1.exports.reset = function() {
+        getDefaultFire().reset();
+    };
+    module1.exports.create = confettiCannon;
+})(function() {
+    if (typeof window !== "undefined") return window;
+    if (typeof self !== "undefined") return self;
+    return this || {};
+}(), module, false);
+// end source content
+exports.default = module.exports;
+var create = module.exports.create;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"km3Ru":[function(require,module,exports) {
+"use strict";
+var Refresh = require("react-refresh/runtime");
+function debounce(func, delay) {
+    var args1;
+    var timeout = undefined;
+    return function(args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = undefined;
+            func.call(null, args);
+        }, delay);
+    };
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module) {
+    if (isReactRefreshBoundary(module.exports)) {
+        registerExportsForReactRefresh(module);
+        if (module.hot) {
+            module.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module.exports;
+            });
+            module.hot.accept(function(getParents) {
+                var prevExports = module.hot.data.prevExports;
+                var nextExports = module.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module) {
+    var exports = module.exports, id = module.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"react-refresh/runtime":"786KC"}],"NJZFB":[function(require,module,exports) {
+!function(t, e) {
+    module.exports = e();
+}(this, function() {
+    "use strict";
+    var t1 = 1e3, e1 = 6e4, n1 = 36e5, r1 = "millisecond", i1 = "second", s1 = "minute", u1 = "hour", a1 = "day", o1 = "week", f1 = "month", h1 = "quarter", c1 = "year", d1 = "date", $1 = "Invalid Date", l1 = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, y1 = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, M1 = {
+        name: "en",
+        weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
+        months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_")
+    }, m1 = function(t, e, n) {
+        var r = String(t);
+        return !r || r.length >= e ? t : "" + Array(e + 1 - r.length).join(n) + t;
+    }, g1 = {
+        s: m1,
+        z: function(t) {
+            var e = -t.utcOffset(), n = Math.abs(e), r = Math.floor(n / 60), i = n % 60;
+            return (e <= 0 ? "+" : "-") + m1(r, 2, "0") + ":" + m1(i, 2, "0");
+        },
+        m: function t(e, n) {
+            if (e.date() < n.date()) return -t(n, e);
+            var r = 12 * (n.year() - e.year()) + (n.month() - e.month()), i = e.clone().add(r, f1), s = n - i < 0, u = e.clone().add(r + (s ? -1 : 1), f1);
+            return +(-(r + (n - i) / (s ? i - u : u - i)) || 0);
+        },
+        a: function(t) {
+            return t < 0 ? Math.ceil(t) || 0 : Math.floor(t);
+        },
+        p: function(t) {
+            return ({
+                M: f1,
+                y: c1,
+                w: o1,
+                d: a1,
+                D: d1,
+                h: u1,
+                m: s1,
+                s: i1,
+                ms: r1,
+                Q: h1
+            })[t] || String(t || "").toLowerCase().replace(/s$/, "");
+        },
+        u: function(t) {
+            return void 0 === t;
+        }
+    }, v1 = "en", D1 = {};
+    D1[v1] = M1;
+    var p = function(t) {
+        return t instanceof _;
+    }, S = function t(e, n, r) {
+        var i;
+        if (!e) return v1;
+        if ("string" == typeof e) {
+            var s = e.toLowerCase();
+            D1[s] && (i = s), n && (D1[s] = n, i = s);
+            var u = e.split("-");
+            if (!i && u.length > 1) return t(u[0]);
+        } else {
+            var a = e.name;
+            D1[a] = e, i = a;
+        }
+        return !r && i && (v1 = i), i || !r && v1;
+    }, w = function(t, e) {
+        if (p(t)) return t.clone();
+        var n = "object" == typeof e ? e : {};
+        return n.date = t, n.args = arguments, new _(n);
+    }, O = g1;
+    O.l = S, O.i = p, O.w = function(t, e) {
+        return w(t, {
+            locale: e.$L,
+            utc: e.$u,
+            x: e.$x,
+            $offset: e.$offset
+        });
+    };
+    var _ = function() {
+        function M2(t) {
+            this.$L = S(t.locale, null, !0), this.parse(t);
+        }
+        var m2 = M2.prototype;
+        return m2.parse = function(t2) {
+            this.$d = function(t) {
+                var e = t.date, n = t.utc;
+                if (null === e) return new Date(NaN);
+                if (O.u(e)) return new Date;
+                if (e instanceof Date) return new Date(e);
+                if ("string" == typeof e && !/Z$/i.test(e)) {
+                    var r = e.match(l1);
+                    if (r) {
+                        var i = r[2] - 1 || 0, s = (r[7] || "0").substring(0, 3);
+                        return n ? new Date(Date.UTC(r[1], i, r[3] || 1, r[4] || 0, r[5] || 0, r[6] || 0, s)) : new Date(r[1], i, r[3] || 1, r[4] || 0, r[5] || 0, r[6] || 0, s);
+                    }
+                }
+                return new Date(e);
+            }(t2), this.$x = t2.x || {}, this.init();
+        }, m2.init = function() {
+            var t = this.$d;
+            this.$y = t.getFullYear(), this.$M = t.getMonth(), this.$D = t.getDate(), this.$W = t.getDay(), this.$H = t.getHours(), this.$m = t.getMinutes(), this.$s = t.getSeconds(), this.$ms = t.getMilliseconds();
+        }, m2.$utils = function() {
+            return O;
+        }, m2.isValid = function() {
+            return !(this.$d.toString() === $1);
+        }, m2.isSame = function(t, e) {
+            var n = w(t);
+            return this.startOf(e) <= n && n <= this.endOf(e);
+        }, m2.isAfter = function(t, e) {
+            return w(t) < this.startOf(e);
+        }, m2.isBefore = function(t, e) {
+            return this.endOf(e) < w(t);
+        }, m2.$g = function(t, e, n) {
+            return O.u(t) ? this[e] : this.set(n, t);
+        }, m2.unix = function() {
+            return Math.floor(this.valueOf() / 1e3);
+        }, m2.valueOf = function() {
+            return this.$d.getTime();
+        }, m2.startOf = function(t3, e2) {
+            var n = this, r = !!O.u(e2) || e2, h = O.p(t3), $ = function(t, e) {
+                var i = O.w(n.$u ? Date.UTC(n.$y, e, t) : new Date(n.$y, e, t), n);
+                return r ? i : i.endOf(a1);
+            }, l = function(t, e) {
+                return O.w(n.toDate()[t].apply(n.toDate("s"), (r ? [
+                    0,
+                    0,
+                    0,
+                    0
+                ] : [
+                    23,
+                    59,
+                    59,
+                    999
+                ]).slice(e)), n);
+            }, y = this.$W, M = this.$M, m = this.$D, g = "set" + (this.$u ? "UTC" : "");
+            switch(h){
+                case c1:
+                    return r ? $(1, 0) : $(31, 11);
+                case f1:
+                    return r ? $(1, M) : $(0, M + 1);
+                case o1:
+                    var v = this.$locale().weekStart || 0, D = (y < v ? y + 7 : y) - v;
+                    return $(r ? m - D : m + (6 - D), M);
+                case a1:
+                case d1:
+                    return l(g + "Hours", 0);
+                case u1:
+                    return l(g + "Minutes", 1);
+                case s1:
+                    return l(g + "Seconds", 2);
+                case i1:
+                    return l(g + "Milliseconds", 3);
+                default:
+                    return this.clone();
+            }
+        }, m2.endOf = function(t) {
+            return this.startOf(t, !1);
+        }, m2.$set = function(t, e) {
+            var n, o = O.p(t), h = "set" + (this.$u ? "UTC" : ""), $ = (n = {}, n[a1] = h + "Date", n[d1] = h + "Date", n[f1] = h + "Month", n[c1] = h + "FullYear", n[u1] = h + "Hours", n[s1] = h + "Minutes", n[i1] = h + "Seconds", n[r1] = h + "Milliseconds", n)[o], l = o === a1 ? this.$D + (e - this.$W) : e;
+            if (o === f1 || o === c1) {
+                var y = this.clone().set(d1, 1);
+                y.$d[$](l), y.init(), this.$d = y.set(d1, Math.min(this.$D, y.daysInMonth())).$d;
+            } else $ && this.$d[$](l);
+            return this.init(), this;
+        }, m2.set = function(t, e) {
+            return this.clone().$set(t, e);
+        }, m2.get = function(t) {
+            return this[O.p(t)]();
+        }, m2.add = function(r, h) {
+            var d, $ = this;
+            r = Number(r);
+            var l = O.p(h), y = function(t) {
+                var e = w($);
+                return O.w(e.date(e.date() + Math.round(t * r)), $);
+            };
+            if (l === f1) return this.set(f1, this.$M + r);
+            if (l === c1) return this.set(c1, this.$y + r);
+            if (l === a1) return y(1);
+            if (l === o1) return y(7);
+            var M = (d = {}, d[s1] = e1, d[u1] = n1, d[i1] = t1, d)[l] || 1, m = this.$d.getTime() + r * M;
+            return O.w(m, this);
+        }, m2.subtract = function(t, e) {
+            return this.add(-1 * t, e);
+        }, m2.format = function(t4) {
+            var e3 = this, n2 = this.$locale();
+            if (!this.isValid()) return n2.invalidDate || $1;
+            var r2 = t4 || "YYYY-MM-DDTHH:mm:ssZ", i2 = O.z(this), s2 = this.$H, u = this.$m, a = this.$M, o = n2.weekdays, f = n2.months, h = function(t, n, i, s) {
+                return t && (t[n] || t(e3, r2)) || i[n].slice(0, s);
+            }, c = function(t) {
+                return O.s(s2 % 12 || 12, t, "0");
+            }, d = n2.meridiem || function(t, e, n) {
+                var r = t < 12 ? "AM" : "PM";
+                return n ? r.toLowerCase() : r;
+            }, l = {
+                YY: String(this.$y).slice(-2),
+                YYYY: this.$y,
+                M: a + 1,
+                MM: O.s(a + 1, 2, "0"),
+                MMM: h(n2.monthsShort, a, f, 3),
+                MMMM: h(f, a),
+                D: this.$D,
+                DD: O.s(this.$D, 2, "0"),
+                d: String(this.$W),
+                dd: h(n2.weekdaysMin, this.$W, o, 2),
+                ddd: h(n2.weekdaysShort, this.$W, o, 3),
+                dddd: o[this.$W],
+                H: String(s2),
+                HH: O.s(s2, 2, "0"),
+                h: c(1),
+                hh: c(2),
+                a: d(s2, u, !0),
+                A: d(s2, u, !1),
+                m: String(u),
+                mm: O.s(u, 2, "0"),
+                s: String(this.$s),
+                ss: O.s(this.$s, 2, "0"),
+                SSS: O.s(this.$ms, 3, "0"),
+                Z: i2
+            };
+            return r2.replace(y1, function(t, e) {
+                return e || l[t] || i2.replace(":", "");
+            });
+        }, m2.utcOffset = function() {
+            return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
+        }, m2.diff = function(r, d, $) {
+            var l, y = O.p(d), M = w(r), m = (M.utcOffset() - this.utcOffset()) * e1, g = this - M, v = O.m(this, M);
+            return v = (l = {}, l[c1] = v / 12, l[f1] = v, l[h1] = v / 3, l[o1] = (g - m) / 6048e5, l[a1] = (g - m) / 864e5, l[u1] = g / n1, l[s1] = g / e1, l[i1] = g / t1, l)[y] || g, $ ? v : O.a(v);
+        }, m2.daysInMonth = function() {
+            return this.endOf(f1).$D;
+        }, m2.$locale = function() {
+            return D1[this.$L];
+        }, m2.locale = function(t, e) {
+            if (!t) return this.$L;
+            var n = this.clone(), r = S(t, e, !0);
+            return r && (n.$L = r), n;
+        }, m2.clone = function() {
+            return O.w(this.$d, this);
+        }, m2.toDate = function() {
+            return new Date(this.valueOf());
+        }, m2.toJSON = function() {
+            return this.isValid() ? this.toISOString() : null;
+        }, m2.toISOString = function() {
+            return this.$d.toISOString();
+        }, m2.toString = function() {
+            return this.$d.toUTCString();
+        }, M2;
+    }(), T = _.prototype;
+    return w.prototype = T, [
+        [
+            "$ms",
+            r1
+        ],
+        [
+            "$s",
+            i1
+        ],
+        [
+            "$m",
+            s1
+        ],
+        [
+            "$H",
+            u1
+        ],
+        [
+            "$W",
+            a1
+        ],
+        [
+            "$M",
+            f1
+        ],
+        [
+            "$y",
+            c1
+        ],
+        [
+            "$D",
+            d1
+        ]
+    ].forEach(function(t) {
+        T[t[1]] = function(e) {
+            return this.$g(e, t[0], t[1]);
+        };
+    }), w.extend = function(t, e) {
+        return t.$i || (t(e, _, w), t.$i = !0), w;
+    }, w.locale = S, w.isDayjs = p, w.unix = function(t) {
+        return w(1e3 * t);
+    }, w.en = D1[v1], w.Ls = D1, w.p = {}, w;
+});
+
+},{}]},["1xC6H","bk8l4","gmHWq"], "gmHWq", "parcelRequired92c")
 
 </script>
     </body>
