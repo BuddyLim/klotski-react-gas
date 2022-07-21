@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import dayjs from 'dayjs'
 import * as PIXI from 'pixi.js'
 import React, { useEffect, useState } from 'react'
 import Game from './Game';
@@ -7,7 +7,9 @@ import Game from './Game';
 export default function Klotski(){
   const canvas = React.useRef();
   const [pixijsApp, setPixijsApp] = useState(null)
+  const [game, setGame] = useState(null)
   const [isResetShown, setResetShown] = useState(false)
+  const [currentCellIndex, setCurrentCellIndex] = useState(2)
 
   useEffect(()=>{
     const app = new PIXI.Application({
@@ -19,8 +21,9 @@ export default function Klotski(){
       backgroundAlpha: 1
     });
 
-    new Game(app, setResetShown)
+    const game = new Game(app, setResetShown)
     setPixijsApp(app)
+    setGame(game)
   }, [])
 
   const handleTakePicture = () =>{
@@ -41,11 +44,16 @@ export default function Klotski(){
   }
 
   const handleSaveCurrentGameInfo = () =>{
-
+    const spreadSheetID = localStorage.getItem('sheetID')
+    const date = dayjs().format('hh:mm:ss a')
+    google.script.run.addDataToSheet(spreadSheetID, date, game.moveCount, game.win)
+    // setCurrentCellIndex(prevIndex => { return ++prevIndex })
   }
 
   const handleResetGame = () =>{
-    location.reload()
+    google.script.run.withSuccessHandler(function(url){
+      window.open(url,'_top');
+    }).getScriptURL();
   }
   
   return(
