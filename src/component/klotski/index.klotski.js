@@ -1,52 +1,53 @@
 import PropTypes from 'prop-types';
 
 import * as PIXI from 'pixi.js'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Game from './Game';
 
 export default function Klotski(){
+  const canvas = React.useRef();
+  const [pixijsApp, setPixijsApp] = useState(null)
   useEffect(()=>{
     const app = new PIXI.Application({
+      backgroundColor: 0xFFFFFF,
+      width: 800,
+      height: 400,
+      view: document.getElementById('canvas'),
+      preserveDrawingBuffer: true,
+      backgroundAlpha: 1
+    });
+
+    new Game(app)
+    setPixijsApp(app)
+  }, [])
+
+  const handleTakePicture = () =>{
+    const renderTexture = PIXI.autoDetectRenderer({
+      width: pixijsApp.screen.width, 
+      height: pixijsApp.screen.height,
+      resolution: pixijsApp.renderer.resolution,
+      backgroundAlpha: 1,
       backgroundColor: 0xFFFFFF
     });
-    // The application will create a canvas element for you that you
-    // can then insert into the DOM
-    document.body.appendChild(app.view);
-
-    // const listOfBlocks = []
-    
-    // const block1 = new Block(50, 50, 50, 100, 0x00ff0)
-
-    // listOfBlocks.push(block1)
-    // const block2 = new Block(50, 150, 50, 100, 0x0f0f0)
-    // const block3 = new Block(50, 250, 50, 50, 0x00ff0)
-
-    // const mainBlock = new Block(100, 50, 100, 100, 0xffff0)
-    // const block4 = new Block(100, 150, 100, 50, 0xffff0)
-    // const block5 = new Block(100, 200, 50, 50, 0xffff0)
-    // const block6 = new Block(150, 200, 50, 50, 0xffff0)
-
-    // const block7 = new Block(200, 50, 50, 100, 0xffff0)
-    // const block8 = new Block(200, 150, 50, 100, 0xffff0)
-    // const block9 = new Block(200, 250, 50, 50, 0xffff0)
-    // app.stage.addChild(block1.graphic)
-    // app.stage.addChild(block2.graphic)
-    // app.stage.addChild(block3.graphic)
-    // app.stage.addChild(mainBlock.graphic)
-    // app.stage.addChild(block4.graphic)
-    // app.stage.addChild(block5.graphic)
-    // app.stage.addChild(block6.graphic)
-    // app.stage.addChild(block7.graphic)
-    // app.stage.addChild(block8.graphic)
-    // app.stage.addChild(block9.graphic)
-
-    const game = new Game(app)
-    console.log(game)
-    
-  }, [])
+    renderTexture.render(pixijsApp.stage)
+    const imgBase64 = renderTexture.extract.base64()
+    const download = document.createElement('a')
+    download.download = 'klotski.png'
+    download.href = imgBase64
+    download.target = '_blank'
+    download.click()
+  }
   
   return(
-    <div></div>
+    <div>
+      <canvas
+        ref={canvas}
+        id="canvas"
+      />
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"center"}}>
+        <button id="take-picture" onClick={handleTakePicture}>Take a picture</button>  
+      </div>
+    </div>
   )
 }
 

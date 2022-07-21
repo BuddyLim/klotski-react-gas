@@ -1,0 +1,20 @@
+@font-face {
+  font-family: zCoolFont;
+  src: url('https://fonts.googleapis.com/css?family=ZCOOL QingKe HuangYou');
+}
+
+html{
+  overflow-y: hidden;
+}
+
+#moves-made{
+  font-family: zCoolFont;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#take-picture{
+  font-family: zCoolFont;
+  font-size: 1.3rem;
+}
